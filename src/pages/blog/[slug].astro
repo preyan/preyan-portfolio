@@ -27,6 +27,22 @@ const dateFormatter = new Intl.DateTimeFormat('en-GB', {
   year: 'numeric',
 });
 const formattedDate = dateFormatter.format(pubDate).toUpperCase();
+
+// Signature timestamp: published-in-Kolkata feel.
+const sigDateFormatter = new Intl.DateTimeFormat('en-GB', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+  timeZone: 'Asia/Kolkata',
+});
+const sigTimeFormatter = new Intl.DateTimeFormat('en-GB', {
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
+  timeZone: 'Asia/Kolkata',
+});
+const signedDate = sigDateFormatter.format(pubDate).toUpperCase();
+const signedTime = sigTimeFormatter.format(pubDate);
 ---
 
 <BaseLayout
@@ -53,8 +69,11 @@ const formattedDate = dateFormatter.format(pubDate).toUpperCase();
 
   <article class="prose">
     <Content />
-    <hr class="signature-hr" />
-    <p class="signature">— Preyan</p>
+    <aside class="signature-block" aria-label="Author signature">
+      <span class="signature-name" aria-hidden="true">Preyan</span>
+      <span class="sr-only">Signed by Preyan,</span>
+      <span class="signature-meta">SIGNED · {signedDate} · {signedTime} IST</span>
+    </aside>
   </article>
 
   <nav class="bottom-nav" aria-label="Blog post navigation">
@@ -132,17 +151,34 @@ const formattedDate = dateFormatter.format(pubDate).toUpperCase();
     padding: 2rem;
   }
 
-  .signature-hr {
-    border: 0;
-    border-top: 1px solid var(--color-ink);
+  .signature-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
     margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-ink);
   }
-  .signature {
+  .signature-name {
+    font-family: var(--font-signature);
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--color-ink);
+    transform: rotate(-3deg);
+    transform-origin: left center;
+    margin-left: 0.25rem;
+    /* slight letter overlap for a more inked feel */
+    letter-spacing: -0.02em;
+  }
+  .signature-meta {
     font-family: var(--font-mono);
-    font-style: italic;
-    font-size: 14px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
     color: var(--color-muted);
-    margin: 1rem 0 0 0;
+    margin-top: 0.25rem;
   }
 
   .bottom-nav {
@@ -260,5 +296,26 @@ const formattedDate = dateFormatter.format(pubDate).toUpperCase();
     border: 0;
     border-top: 1px solid var(--color-ink);
     margin: 2rem 0;
+  }
+  .prose img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 2px solid var(--color-ink);
+    filter: grayscale(1) contrast(1.1);
+    margin: 1.5rem 0;
+  }
+  .prose figure {
+    margin: 2rem 0;
+  }
+  .prose figcaption {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    letter-spacing: 0.15em;
+    margin-top: 0.75rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-accent);
   }
 </style>

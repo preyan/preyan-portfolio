@@ -1,0 +1,38 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+}
+
+const { src, alt, caption } = Astro.props;
+---
+
+<figure class="blog-image">
+  <img src={src} alt={alt} loading="lazy" decoding="async" />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .blog-image {
+    margin: 2rem 0;
+  }
+  .blog-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 2px solid var(--color-ink);
+    filter: grayscale(1) contrast(1.1);
+    object-fit: cover;
+  }
+  .blog-image figcaption {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    letter-spacing: 0.15em;
+    margin-top: 0.75rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-accent);
+  }
+</style>

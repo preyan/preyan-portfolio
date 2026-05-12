@@ -67,24 +67,21 @@ const expertise: readonly ExpertiseGroup[] = [
           <a href="mailto:preyan1997@gmail.com">preyan1997@gmail.com</a> ·
           <a href="tel:+919836556742">+91 98365 56742</a> · Kolkata, India
         </p>
-        <nav class="nav-grid" aria-label="Primary site navigation">
-          <a class="nav-tile" href="/resume.pdf" aria-label="Download resume PDF" download>
-            RESUME ↓
-          </a>
-          <a class="nav-tile" href="/projects">
+        <div class="cta-row">
+          <a class="cta-button cta-outline" href="/projects">
             PROJECTS →
           </a>
-          <a class="nav-tile" href="/blog">
-            BLOG →
+          <a class="cta-button cta-outline" href="/resume.pdf" aria-label="Download resume PDF" download>
+            DOWNLOAD RESUME ↓
           </a>
-        </nav>
-        <a
-          class="action-btn action-secondary"
-          href="mailto:preyan1997@gmail.com?subject=Hello%20Preyan"
-          aria-label="Send Preyan an email"
-        >
-          CONNECT OVER EMAIL →
-        </a>
+          <a
+            class="cta-button cta-filled"
+            href="mailto:preyan1997@gmail.com?subject=Hello%20Preyan"
+            aria-label="Send Preyan an email"
+          >
+            CONNECT OVER EMAIL →
+          </a>
+        </div>
       </div>
       <figure class="headshot" aria-label="Headshot of Preyan Bhowmick">
         <div class="headshot-frame">
@@ -250,52 +247,58 @@ const expertise: readonly ExpertiseGroup[] = [
     text-decoration: underline;
     text-underline-offset: 3px;
   }
-  .nav-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
+  .cta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
     margin-top: 2rem;
   }
-  .nav-tile {
-    display: block;
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 180px;
+    padding: 1rem 1.5rem;
+    border: 2px solid var(--color-ink);
     font-family: var(--font-sans);
     font-weight: 900;
-    font-size: 24px;
-    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.1em;
     text-align: center;
+    text-transform: uppercase;
     text-decoration: none;
-    border: 3px solid var(--color-ink);
-    padding: 1.5rem 2rem;
-    background-color: var(--color-cream);
-    color: var(--color-ink);
+    white-space: nowrap;
     transition: background-color 0.15s ease, color 0.15s ease;
   }
-  .nav-tile:hover,
-  .nav-tile:focus-visible {
+  .cta-outline {
+    background-color: transparent;
+    color: var(--color-ink);
+  }
+  .cta-outline:hover,
+  .cta-outline:focus-visible {
     background-color: var(--color-ink);
     color: var(--color-cream);
   }
-  .action-btn {
-    display: inline-block;
-    font-family: var(--font-sans);
-    font-weight: 900;
-    font-size: 18px;
-    text-transform: uppercase;
-    text-align: center;
-    text-decoration: none;
-    border: 3px solid var(--color-ink);
-    padding: 1rem 2rem;
-    margin-top: 1rem;
-    transition: background-color 0.15s ease, color 0.15s ease;
-  }
-  .action-secondary {
+  .cta-filled {
     background-color: var(--color-ink);
     color: var(--color-cream);
   }
-  .action-secondary:hover,
-  .action-secondary:focus-visible {
-    background-color: var(--color-accent);
+  .cta-filled:hover,
+  .cta-filled:focus-visible {
+    background-color: transparent;
     color: var(--color-ink);
+  }
+
+  @media (min-width: 640px) {
+    .cta-row {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .cta-button {
+      width: auto;
+    }
   }
 
   .section {
@@ -416,13 +419,6 @@ const expertise: readonly ExpertiseGroup[] = [
     .hero h1 {
       font-size: 72px;
       margin-top: 4rem;
-    }
-    .nav-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    .nav-tile {
-      font-size: 32px;
-      padding: 2rem 2.5rem;
     }
     .section {
       padding: 4rem 2rem;
