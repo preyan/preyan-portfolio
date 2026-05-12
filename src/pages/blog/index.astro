@@ -61,7 +61,7 @@ const formatDate = (date: Date): string => dateFormatter.format(date).toUpperCas
                 </div>
               )}
               <a class="read-link" href={`/blog/${id}`}>
-                READ →
+                READ <span aria-hidden="true">→</span>
               </a>
             </article>
           );

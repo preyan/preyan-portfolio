@@ -107,20 +107,20 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
         </p>
         <div class="cta-row">
           <a class="cta-button cta-outline" href="/projects">
-            PROJECTS →
+            PROJECTS <span aria-hidden="true">→</span>
           </a>
           <a class="cta-button cta-outline" href="/blog">
-            BLOG →
+            BLOG <span aria-hidden="true">→</span>
           </a>
           <a class="cta-button cta-outline" href="/resume.pdf" aria-label="Download resume PDF" download>
-            DOWNLOAD RESUME ↓
+            DOWNLOAD RESUME <span aria-hidden="true">↓</span>
           </a>
           <a
             class="cta-button cta-filled"
             href="mailto:preyan1997@gmail.com?subject=Hello%20Preyan"
             aria-label="Send Preyan an email"
           >
-            CONNECT WITH ME →
+            CONNECT WITH ME <span aria-hidden="true">→</span>
           </a>
         </div>
       </div>
@@ -165,7 +165,7 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
         </div>
       </header>
       <hr class="exp-rule" />
-      <ol class="exp-list">
+      <ul class="exp-list">
         {
           accentureBullets.map((bullet, i) => (
             <li>
@@ -175,7 +175,7 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
             </li>
           ))
         }
-      </ol>
+      </ul>
       <div class="awards-badge">
         <span class="awards-label">AWARDS</span>
         <span class="awards-text">Growth Catalyst · Star Performer</span>
@@ -195,7 +195,7 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
         </div>
       </header>
       <hr class="exp-rule" />
-      <ol class="exp-list">
+      <ul class="exp-list">
         {
           capgeminiBullets.map((bullet, i) => (
             <li>
@@ -205,7 +205,7 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
             </li>
           ))
         }
-      </ol>
+      </ul>
       <div class="awards-badge">
         <span class="awards-label">AWARDS</span>
         <span class="awards-text"
@@ -308,10 +308,12 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
   .hero h1 {
     font-family: var(--font-sans);
     font-weight: 900;
-    font-size: 40px;
+    font-size: clamp(28px, 8vw, 72px);
     line-height: 0.95;
     letter-spacing: -0.04em;
     text-transform: uppercase;
+    hyphens: manual;
+    overflow-wrap: break-word;
     margin: 2rem 0 0 0;
   }
   .sub-headline {
@@ -624,7 +626,6 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
       align-self: flex-start;
     }
     .hero h1 {
-      font-size: 72px;
       margin-top: 4rem;
     }
     .section {

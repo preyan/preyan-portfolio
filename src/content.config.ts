@@ -17,6 +17,13 @@ const projects = defineCollection({
   }),
 });
 
+/**
+ * Blog post schema.
+ *
+ * IMPORTANT: Use the BlogImage component for all images in post body.
+ * Raw markdown ![alt](src) syntax does NOT enforce alt text — authors can ship
+ * images without alt and the build will pass. BlogImage requires alt via TypeScript.
+ */
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/blog' }),
   schema: z.object({
