@@ -1,7 +1,26 @@
 {
   "name": "preyan-portfolio",
+  "version": "1.0.0",
+  "description": "Personal portfolio site by Preyan Bhowmick — Senior Full Stack Developer. Brutalist aesthetic, statically generated with Astro.",
+  "author": "Preyan Bhowmick <preyan1997@gmail.com>",
+  "license": "MIT",
   "type": "module",
-  "version": "0.0.1",
+  "private": true,
+  "homepage": "https://preyan.github.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/preyan/preyan.github.io.git"
+  },
+  "bugs": {
+    "url": "https://github.com/preyan/preyan.github.io/issues"
+  },
+  "keywords": [
+    "portfolio",
+    "astro",
+    "brutalist",
+    "typescript",
+    "tailwind"
+  ],
   "engines": {
     "node": ">=22.12.0"
   },
