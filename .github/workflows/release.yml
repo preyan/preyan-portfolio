@@ -46,61 +46,29 @@ jobs:
           STYLE=$(git log $COMMIT_RANGE --pretty=format:"- %s" --grep="^style" | sed 's/^- style[(:]\?[^:]*: */- /' || true)
           REFACTOR=$(git log $COMMIT_RANGE --pretty=format:"- %s" --grep="^refactor" | sed 's/^- refactor[(:]\?[^:]*: */- /' || true)
 
-          NOTES="Released from \`main\`. Live at https://preyan.github.io"
-          NOTES="$NOTES
-
-"
-          NOTES="$NOTES$COMPARE_HEADER"
-          NOTES="$NOTES
-
-"
+          NL=$'\n'
+          NOTES="Released from \`main\`. Live at https://preyan.github.io${NL}${NL}${COMPARE_HEADER}${NL}${NL}"
 
           if [ -n "$FEATURES" ]; then
-            NOTES="$NOTES## Features
-
-$FEATURES
-
-"
+            NOTES="${NOTES}## Features${NL}${NL}${FEATURES}${NL}${NL}"
           fi
           if [ -n "$FIXES" ]; then
-            NOTES="$NOTES## Fixes
-
-$FIXES
-
-"
+            NOTES="${NOTES}## Fixes${NL}${NL}${FIXES}${NL}${NL}"
           fi
           if [ -n "$DOCS" ]; then
-            NOTES="$NOTES## Documentation
-
-$DOCS
-
-"
+            NOTES="${NOTES}## Documentation${NL}${NL}${DOCS}${NL}${NL}"
           fi
           if [ -n "$CHORES" ]; then
-            NOTES="$NOTES## Maintenance
-
-$CHORES
-
-"
+            NOTES="${NOTES}## Maintenance${NL}${NL}${CHORES}${NL}${NL}"
           fi
           if [ -n "$STYLE" ]; then
-            NOTES="$NOTES## Style
-
-$STYLE
-
-"
+            NOTES="${NOTES}## Style${NL}${NL}${STYLE}${NL}${NL}"
           fi
           if [ -n "$REFACTOR" ]; then
-            NOTES="$NOTES## Refactoring
-
-$REFACTOR
-
-"
+            NOTES="${NOTES}## Refactoring${NL}${NL}${REFACTOR}${NL}${NL}"
           fi
 
-          NOTES="$NOTES---
-
-**Stack:** Astro 5 · MDX · Tailwind 4 · TypeScript · GitHub Pages"
+          NOTES="${NOTES}---${NL}${NL}**Stack:** Astro 5 · MDX · Tailwind 4 · TypeScript · GitHub Pages"
 
           {
             echo 'body<<RELEASE_NOTES_END'
