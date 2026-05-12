@@ -22,7 +22,7 @@ const stampTextFor = (status: ProjectEntry['data']['status']): string => status.
   pageName="PROJECTS"
 >
   <header class="index-header">
-    <p class="index-label">ALL PROJECTS · {entryCount} ENTRIES</p>
+    <h1 class="index-label">ALL PROJECTS · {entryCount} ENTRIES</h1>
   </header>
 
   <section class="grid" aria-label="Projects list">
@@ -48,17 +48,35 @@ const stampTextFor = (status: ProjectEntry['data']['status']): string => status.
             </div>
             <div class="card-links">
               {liveUrl && (
-                <a class="card-link" href={liveUrl} target="_blank" rel="noopener noreferrer">
-                  LIVE ↗
+                <a
+                  class="card-link"
+                  href={liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Live demo (opens in new tab)"
+                >
+                  LIVE <span aria-hidden="true">↗</span>
                 </a>
               )}
-              <a class="card-link" href={codeUrl} target="_blank" rel="noopener noreferrer">
-                CODE ↗
+              <a
+                class="card-link"
+                href={codeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Source code on GitHub (opens in new tab)"
+              >
+                CODE <span aria-hidden="true">↗</span>
               </a>
               <a class="card-link" href={`/projects/${id}`}>WRITE-UP →</a>
               {npmUrl && (
-                <a class="card-link" href={npmUrl} target="_blank" rel="noopener noreferrer">
-                  NPM ↗
+                <a
+                  class="card-link"
+                  href={npmUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="npm package (opens in new tab)"
+                >
+                  NPM <span aria-hidden="true">↗</span>
                 </a>
               )}
             </div>

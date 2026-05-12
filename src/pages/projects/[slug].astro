@@ -47,16 +47,36 @@ const statusText = status.toUpperCase();
     <div class="meta-links">
       {
         liveUrl && (
-          <a class="meta-link" href={liveUrl} target="_blank" rel="noopener noreferrer">
-            LIVE ↗
+          <a
+            class="meta-link"
+            href={liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Live demo (opens in new tab)"
+          >
+            LIVE <span aria-hidden="true">↗</span>
           </a>
         )
       }
-      <a class="meta-link" href={codeUrl} target="_blank" rel="noopener noreferrer">CODE ↗</a>
+      <a
+        class="meta-link"
+        href={codeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Source code on GitHub (opens in new tab)"
+      >
+        CODE <span aria-hidden="true">↗</span>
+      </a>
       {
         npmUrl && (
-          <a class="meta-link" href={npmUrl} target="_blank" rel="noopener noreferrer">
-            NPM ↗
+          <a
+            class="meta-link"
+            href={npmUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="npm package (opens in new tab)"
+          >
+            NPM <span aria-hidden="true">↗</span>
           </a>
         )
       }
