@@ -22,37 +22,75 @@ const capgeminiBullets: readonly string[] = [
   'Coordinated sprint planning and delivery across distributed teams using Git and Jira',
 ];
 
+interface Skill {
+  readonly name: string;
+  readonly primary?: boolean;
+}
+
 interface ExpertiseGroup {
   readonly label: string;
-  readonly skills: readonly string[];
+  readonly skills: readonly Skill[];
 }
 
 const expertise: readonly ExpertiseGroup[] = [
   {
     label: 'FRONTEND',
     skills: [
-      'Angular 2+',
-      'TypeScript',
-      'JavaScript',
-      'RxJS',
-      'NGRX',
-      'Tailwind',
-      'Bootstrap',
-      'HTML5',
-      'CSS3',
-      'PrimeNG',
-      'ngBootstrap',
+      { name: 'Angular 2+', primary: true },
+      { name: 'TypeScript', primary: true },
+      { name: 'JavaScript' },
+      { name: 'RxJS' },
+      { name: 'NGRX' },
+      { name: 'Tailwind' },
+      { name: 'Bootstrap' },
+      { name: 'HTML5' },
+      { name: 'CSS3' },
+      { name: 'PrimeNG' },
+      { name: 'ngBootstrap' },
     ],
   },
-  { label: 'BACKEND', skills: ['Node.js', 'NestJS', 'Express', 'REST APIs', '.NET'] },
-  { label: 'DATABASE', skills: ['MongoDB', 'MySQL', 'Oracle', 'SQL', 'NoSQL'] },
+  {
+    label: 'BACKEND',
+    skills: [
+      { name: 'Node.js', primary: true },
+      { name: 'NestJS', primary: true },
+      { name: 'Express' },
+      { name: 'REST APIs' },
+    ],
+  },
+  {
+    label: 'DATABASE',
+    skills: [
+      { name: 'MongoDB', primary: true },
+      { name: 'MySQL' },
+      { name: 'Oracle' },
+      { name: 'SQL' },
+      { name: 'NoSQL' },
+    ],
+  },
   {
     label: 'DEVOPS & TOOLS',
-    skills: ['Azure DevOps', 'GitHub Actions', 'Git', 'Bitbucket', 'Jira', 'Swagger', 'Nx Workspace'],
+    skills: [
+      { name: 'Azure DevOps' },
+      { name: 'GitHub Actions' },
+      { name: 'Git', primary: true },
+      { name: 'Bitbucket' },
+      { name: 'Jira' },
+      { name: 'Swagger' },
+      { name: 'Nx Workspace' },
+    ],
   },
-  { label: 'TESTING', skills: ['Karma', 'Jasmine', 'Postman'] },
-  { label: 'UTILITIES', skills: ['Lodash', 'Day.js'] },
+  {
+    label: 'TESTING',
+    skills: [{ name: 'Karma' }, { name: 'Jasmine' }, { name: 'Postman' }],
+  },
+  {
+    label: 'UTILITIES',
+    skills: [{ name: 'Lodash' }, { name: 'Day.js' }],
+  },
 ];
+
+const categoryCount = expertise.length.toString().padStart(2, '0');
 
 ---
 
@@ -174,15 +212,21 @@ const expertise: readonly ExpertiseGroup[] = [
     </article>
   </section>
 
-  <section class="section" aria-labelledby="skills-heading">
-    <h2 id="skills-heading">EXPERTISE</h2>
+  <section class="section expertise" aria-labelledby="skills-heading">
+    <header class="section-header">
+      <h2 id="skills-heading">§ 03 — EXPERTISE</h2>
+      <span class="section-count">CATEGORIES / {categoryCount}</span>
+    </header>
     {
       expertise.map((group) => (
         <div class="skill-group">
-          <h3>{group.label}</h3>
+          <header class="skill-group-head">
+            <h3>{group.label}</h3>
+            <span class="skill-group-count">({group.skills.length})</span>
+          </header>
           <div class="pills">
             {group.skills.map((skill) => (
-              <span class="pill">{skill}</span>
+              <span class:list={['pill', { 'pill-primary': skill.primary }]}>{skill.name}</span>
             ))}
           </div>
         </div>
@@ -509,29 +553,52 @@ const expertise: readonly ExpertiseGroup[] = [
   }
 
   .skill-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
   }
-  .skill-group h3 {
+  .skill-group:last-child {
+    margin-bottom: 0;
+  }
+  .skill-group-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-ink);
+  }
+  .skill-group-head h3 {
     font-family: var(--font-mono);
     font-weight: 700;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-ink);
+    margin: 0;
+  }
+  .skill-group-count {
+    font-family: var(--font-mono);
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
     color: var(--color-muted);
-    margin: 0 0 0.75rem 0;
   }
   .pills {
     display: flex;
     flex-wrap: wrap;
+    gap: 0.5rem;
   }
   .pill {
     display: inline-block;
+    padding: 6px 12px;
     border: 2px solid var(--color-ink);
+    background-color: transparent;
+    color: var(--color-ink);
     font-family: var(--font-mono);
     font-size: 12px;
-    padding: 6px 10px;
-    margin: 4px 8px 4px 0;
-    background-color: var(--color-cream);
+    white-space: nowrap;
+  }
+  .pill-primary {
+    background-color: var(--color-accent);
   }
 
   @media (min-width: 768px) {

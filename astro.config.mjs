@@ -14,6 +14,6 @@ export default defineConfig({
     remotePatterns: [{ protocol: 'https', hostname: 'images.unsplash.com' }],
   },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [/** @type {any} */ (tailwindcss())],
   },
 });
