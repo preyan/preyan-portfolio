@@ -1,0 +1,196 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+type BlogEntry = CollectionEntry<'blog'>;
+
+// Filter out drafts at build time; sort newest first.
+const posts: BlogEntry[] = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+
+const entryCount = posts.length.toString().padStart(2, '0');
+const entryLabel = posts.length === 1 ? 'ENTRY' : 'ENTRIES';
+
+const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
+});
+
+const formatDate = (date: Date): string => dateFormatter.format(date).toUpperCase();
+---
+
+<BaseLayout
+  title="Blog — Preyan Bhowmick"
+  description="Writing on software engineering, the practice of shipping, and lessons from seven years in production."
+  pageName="BLOG"
+>
+  <header class="index-header">
+    <p class="index-label">ALL POSTS · {entryCount} {entryLabel}</p>
+  </header>
+
+  {
+    posts.length === 0 ? (
+      <section class="empty" aria-label="Blog posts">
+        <p class="empty-message">NO POSTS YET. CHECK BACK SOON.</p>
+      </section>
+    ) : (
+      <section class="post-list" aria-label="Blog posts">
+        {posts.map((post) => {
+          const { id, data } = post;
+          const { title, description, pubDate, readingTime, tags } = data;
+          return (
+            <article class="post-card">
+              <div class="card-meta">
+                <span class="card-date">{formatDate(pubDate)}</span>
+                {readingTime && <span class="card-reading">{readingTime}</span>}
+              </div>
+              <h2 class="card-title">
+                <a class="card-title-link" href={`/blog/${id}`}>
+                  {title}
+                </a>
+              </h2>
+              <p class="card-desc">{description}</p>
+              {tags.length > 0 && (
+                <div class="tag-row">
+                  {tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+              )}
+              <a class="read-link" href={`/blog/${id}`}>
+                READ →
+              </a>
+            </article>
+          );
+        })}
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .index-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 2px solid var(--color-ink);
+  }
+  .index-label {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .post-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-card {
+    padding: 2rem;
+    border-bottom: 2px solid var(--color-ink);
+  }
+  .post-card:last-of-type {
+    border-bottom: 0;
+  }
+
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+  }
+  .card-date,
+  .card-reading {
+    display: inline-block;
+  }
+
+  .card-title {
+    font-family: var(--font-sans);
+    font-weight: 900;
+    font-size: 24px;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin: 1rem 0 0 0;
+  }
+  .card-title-link {
+    text-decoration: none;
+  }
+  .card-title-link:hover,
+  .card-title-link:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .card-desc {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--color-muted);
+    max-width: 640px;
+    margin: 0.75rem 0 0 0;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .tag {
+    display: inline-block;
+    border: 2px solid var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 8px;
+    margin: 0 8px 4px 0;
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+  }
+
+  .read-link {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    padding: 2px 4px;
+  }
+  /* Sharp yellow swap on hover — no transition, brutalist intent. */
+  .read-link:hover,
+  .read-link:focus-visible {
+    background-color: var(--color-accent);
+  }
+
+  .empty {
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  .empty-message {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    .card-title {
+      font-size: 32px;
+    }
+  }
+</style>

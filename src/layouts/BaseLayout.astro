@@ -23,6 +23,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Preyan Bhowmick — Blog"
+      href="/feed.xml"
+    />
     <link rel="preload" href={inter900Url} as="font" type="font/woff2" crossorigin="anonymous" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
