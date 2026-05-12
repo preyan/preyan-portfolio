@@ -7,12 +7,13 @@
 Brutalist aesthetic. Statically generated. Built to last.
 
 [![Astro](https://img.shields.io/badge/Astro-6-FF5D01?style=flat-square&logo=astro&logoColor=white)](https://astro.build)
+[![MDX](https://img.shields.io/badge/MDX-5-1B1F24?style=flat-square&logo=mdx&logoColor=white)](https://mdxjs.com)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-deploy-222222?style=flat-square&logo=github&logoColor=white)](https://pages.github.com)
+[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-live-222222?style=flat-square&logo=github&logoColor=white)](https://preyan.github.io)
 [![License: MIT](https://img.shields.io/badge/License-MIT-000000?style=flat-square)](LICENSE)
 
-[Live site](https://preyan.github.io) &nbsp;·&nbsp; _pending GitHub Pages connection_
+**Live:** [preyan.github.io](https://preyan.github.io)
 
 </div>
 
@@ -20,13 +21,14 @@ Brutalist aesthetic. Statically generated. Built to last.
 
 ## Overview
 
-A single-page hub showcasing experience, expertise, and a downloadable resume — built like a printed publication: hard borders, no rounded corners, no shadows, plenty of negative space.
+A static site built like a printed publication: hard borders, no rounded corners, no shadows, generous whitespace. Hub at `/` surfaces experience, expertise, and a resume download; `/projects` opens a showcase of selected work with full MDX write-ups per project.
 
 ## Stack
 
 | Layer            | Tech                                          |
 | ---------------- | --------------------------------------------- |
 | Framework        | [Astro 6](https://astro.build)                |
+| Content          | [MDX](https://mdxjs.com) via Content Layer    |
 | Styling          | [Tailwind CSS 4](https://tailwindcss.com)     |
 | Language         | TypeScript (strict)                           |
 | Fonts            | Self-hosted Inter + JetBrains Mono Variable   |
@@ -37,7 +39,7 @@ A single-page hub showcasing experience, expertise, and a downloadable resume �
 ## Roadmap
 
 - [x] **v1** — Hub: experience + expertise + resume download
-- [ ] **v2** — `/projects` showcase
+- [x] **v2** — `/projects` showcase with MDX write-ups
 - [ ] **v3** — `/blog` from markdown posts
 
 ## Getting started
@@ -62,25 +64,25 @@ Then visit [`http://localhost:4321`](http://localhost:4321).
 
 ```text
 .
-├── public/              # static assets (favicon, resume.pdf, photo)
+├── public/                 # static assets (favicon, resume.pdf, photo)
 ├── src/
-│   ├── components/      # Masthead, Footer, Stamp
-│   ├── layouts/         # BaseLayout
-│   ├── pages/           # index.astro, 404.astro
-│   └── styles/          # global.css + design tokens
+│   ├── components/         # Masthead, Footer, Stamp
+│   ├── content/projects/   # MDX write-ups, one per project
+│   ├── content.config.ts   # Content Layer schema (zod-validated)
+│   ├── layouts/            # BaseLayout
+│   ├── pages/
+│   │   ├── index.astro     # hub
+│   │   ├── 404.astro
+│   │   └── projects/       # /projects index + /projects/[slug]
+│   └── styles/             # global.css + design tokens
+├── .github/workflows/      # deploy.yml (GitHub Pages)
 ├── astro.config.mjs
 └── package.json
 ```
 
 ## Deploy
 
-Deployed to GitHub Pages via the workflow at `.github/workflows/deploy.yml`.
-
-1. Repo **Settings** → **Pages** → **Build and deployment** → Source: **GitHub Actions**
-2. Push to `main` (or trigger `workflow_dispatch`) — the workflow builds with `pnpm build` and publishes `./dist`
-3. Site goes live at `https://preyan.github.io`
-
-Live in ~60 seconds after the workflow completes.
+Live at [preyan.github.io](https://preyan.github.io). Deployed automatically by the workflow at [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) on every push to `main`. The workflow builds with `pnpm build` and publishes `./dist` to GitHub Pages — typically ~60 seconds end-to-end.
 
 ## License
 
