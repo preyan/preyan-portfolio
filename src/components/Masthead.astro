@@ -1,0 +1,24 @@
+---
+interface Props {
+  pageName: string;
+}
+
+const { pageName } = Astro.props;
+---
+
+<header role="banner" class="masthead">
+  PREYAN.DEV / VOL. I / {pageName}
+</header>
+
+<style>
+  .masthead {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    padding: 12px 16px;
+    border-bottom: 2px solid var(--color-ink);
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+  }
+</style>

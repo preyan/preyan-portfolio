@@ -1,0 +1,336 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Stamp from '../components/Stamp.astro';
+
+const title = 'Preyan Bhowmick — Full Stack Engineer';
+const description =
+  'Senior Full Stack Developer at Accenture, based in Kolkata. I build production web applications with Angular, Node.js, and NestJS — currently focused on performance, mentorship, and shipping software that works.';
+
+const accentureBullets: readonly string[] = [
+  'Build full-stack modules with Angular (frontend) and Node.js/NestJS (backend), wired to MongoDB via Mongoose',
+  'Designed and shipped REST APIs across Express and NestJS for production workloads',
+  'Refactored backend to TypeScript-first — measurable gains in maintainability and type safety',
+  'Led API performance tuning that cut response times by 30%',
+  'Mentored junior engineers on frontend architecture and backend patterns; contributed to ~30% team velocity lift',
+];
+
+const capgeminiBullets: readonly string[] = [
+  'Shipped full-stack features in Angular + Node.js + MongoDB; ~20% application efficiency improvement',
+  'Built REST APIs and refactored backend services for ~30% faster response times',
+  'Partnered with QA and DevOps to streamline Azure DevOps pipelines, cutting deployment time by ~30%',
+  'Used Git + Jira to coordinate sprint planning across distributed teams',
+];
+
+interface ExpertiseGroup {
+  readonly label: string;
+  readonly skills: readonly string[];
+}
+
+const expertise: readonly ExpertiseGroup[] = [
+  {
+    label: 'FRONTEND',
+    skills: [
+      'Angular 2+',
+      'TypeScript',
+      'JavaScript',
+      'RxJS',
+      'NGRX',
+      'Tailwind',
+      'Bootstrap',
+      'HTML5',
+      'CSS3',
+      'PrimeNG',
+      'ngBootstrap',
+    ],
+  },
+  { label: 'BACKEND', skills: ['Node.js', 'NestJS', 'Express', 'REST APIs'] },
+  { label: 'DATABASE', skills: ['MongoDB', 'MySQL', 'Oracle', 'SQL', 'NoSQL'] },
+  {
+    label: 'DEVOPS & TOOLS',
+    skills: ['Azure DevOps', 'GitHub Actions', 'Git', 'Bitbucket', 'Jira', 'Swagger', 'Nx Workspace'],
+  },
+  { label: 'TESTING', skills: ['Karma', 'Jasmine', 'Postman'] },
+  { label: 'UTILITIES', skills: ['Lodash', 'Day.js'] },
+];
+
+const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
+---
+
+<BaseLayout title={title} description={description} pageName="HOME">
+  <section class="hero">
+    <p class="pre-label">PREYAN.DEV / EST. 2026 / IDX 001</p>
+    <div class="hero-stamp">
+      <Stamp text="AVAILABLE" variant="available" rotation={3} />
+    </div>
+    <h1>FULL STACK ENGINEER WHO SHIPS.</h1>
+    <p class="sub-headline">{description}</p>
+    <p class="contact">
+      <a href="mailto:preyan1997@gmail.com">preyan1997@gmail.com</a> ·
+      <a href="tel:+919836556742">+91 98365 56742</a> · Kolkata, India
+    </p>
+    <a class="resume-btn" href="/resume.pdf" aria-label="Download resume PDF" download>
+      DOWNLOAD RESUME ↓
+    </a>
+  </section>
+
+  <section class="section" aria-labelledby="exp-heading">
+    <h2 id="exp-heading">EXPERIENCE</h2>
+
+    <article>
+      <header class="exp-head">
+        <h3>ACCENTURE</h3>
+        <p class="exp-meta">Feb 2022 — Present · Kolkata</p>
+      </header>
+      <p class="exp-role">Senior Full Stack Developer</p>
+      <ul class="exp-list">
+        {accentureBullets.map((bullet) => <li>{bullet}</li>)}
+      </ul>
+      <p class="exp-awards">AWARDS: Growth Catalyst, Star Performer</p>
+    </article>
+
+    <hr />
+
+    <article>
+      <header class="exp-head">
+        <h3>CAPGEMINI</h3>
+        <p class="exp-meta">Jul 2018 — Feb 2022 · Mumbai</p>
+      </header>
+      <p class="exp-role">Full Stack Developer</p>
+      <ul class="exp-list">
+        {capgeminiBullets.map((bullet) => <li>{bullet}</li>)}
+      </ul>
+      <p class="exp-awards">
+        AWARDS: Xtra Mile, Star Performer, Certificate of Appreciation; Finalist — Burger Hack 2.0
+      </p>
+    </article>
+  </section>
+
+  <section class="section" aria-labelledby="skills-heading">
+    <h2 id="skills-heading">EXPERTISE</h2>
+    {
+      expertise.map((group) => (
+        <div class="skill-group">
+          <h3>{group.label}</h3>
+          <div class="pills">
+            {group.skills.map((skill) => (
+              <span class="pill">{skill}</span>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </section>
+
+  <section class="section coming-soon" aria-labelledby="coming-soon">
+    <p id="coming-soon" class="pre-label">COMING SOON / VOL. II</p>
+    <ul class="coming-list">
+      {comingSoon.map((item) => <li>{item}</li>)}
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    position: relative;
+    padding: 2rem 1.5rem;
+  }
+  .hero-stamp {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+  }
+  .pre-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+    margin: 0;
+  }
+  .hero h1 {
+    font-family: var(--font-sans);
+    font-weight: 900;
+    font-size: 40px;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    margin: 2rem 0 0 0;
+  }
+  .sub-headline {
+    max-width: 540px;
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 1.5rem 0 0 0;
+    font-weight: 400;
+  }
+  .contact {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--color-muted);
+    margin: 1rem 0 0 0;
+  }
+  .contact a {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .resume-btn {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-weight: 900;
+    font-size: 18px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 3px solid var(--color-ink);
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+  .resume-btn:hover,
+  .resume-btn:focus-visible {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+  }
+
+  .section {
+    padding: 3rem 1.5rem;
+    border-top: 2px solid var(--color-ink);
+  }
+  .section h2 {
+    font-family: var(--font-sans);
+    font-weight: 900;
+    font-size: 32px;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0 0 2rem 0;
+  }
+
+  .exp-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .exp-head h3 {
+    font-family: var(--font-sans);
+    font-weight: 900;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .exp-meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-muted);
+    margin: 0;
+  }
+  .exp-role {
+    font-style: italic;
+    font-weight: 500;
+    font-size: 17px;
+    margin: 0.5rem 0 0 0;
+  }
+  .exp-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+  }
+  .exp-list li {
+    font-size: 15px;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 1.25rem;
+    margin-bottom: 0.35rem;
+  }
+  .exp-list li::before {
+    content: '— ';
+    position: absolute;
+    left: 0;
+    color: var(--color-ink);
+  }
+  .exp-awards {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-muted);
+    margin-top: 1rem;
+  }
+  hr {
+    border: 0;
+    border-top: 1px solid var(--color-ink);
+    margin: 2.5rem 0;
+  }
+
+  .skill-group {
+    margin-bottom: 1.5rem;
+  }
+  .skill-group h3 {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    margin: 0 0 0.75rem 0;
+  }
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .pill {
+    display: inline-block;
+    border: 2px solid var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 6px 10px;
+    margin: 4px 8px 4px 0;
+    background-color: var(--color-cream);
+  }
+
+  .coming-soon {
+    padding: 2rem 1.5rem;
+  }
+  .coming-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+  }
+  .coming-list li {
+    font-size: 14px;
+    line-height: 1.6;
+    position: relative;
+    padding-left: 1.25rem;
+  }
+  .coming-list li::before {
+    content: '— ';
+    position: absolute;
+    left: 0;
+  }
+
+  @media (min-width: 768px) {
+    .hero {
+      padding: 4rem 2rem;
+    }
+    .hero-stamp {
+      top: 2rem;
+      right: 2rem;
+    }
+    .hero h1 {
+      font-size: 72px;
+    }
+    .section {
+      padding: 4rem 2rem;
+    }
+    .coming-soon {
+      padding: 3rem 2rem;
+    }
+    .exp-head {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+  }
+</style>

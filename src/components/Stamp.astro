@@ -1,0 +1,50 @@
+---
+type StampVariant = 'available' | 'live' | 'archived' | 'wip' | 'featured';
+
+interface Props {
+  text: string;
+  variant: StampVariant;
+  rotation?: number;
+}
+
+const { text, variant, rotation = 2 } = Astro.props;
+---
+
+<span class:list={['stamp', `stamp--${variant}`]} style={`transform: rotate(${rotation}deg);`}>
+  {text}
+</span>
+
+<style>
+  .stamp {
+    display: inline-block;
+    border: 2px solid var(--color-ink);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    line-height: 1.1;
+  }
+  .stamp--available {
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+  }
+  .stamp--live {
+    background-color: #ffffff;
+    color: var(--color-ink);
+  }
+  .stamp--featured {
+    background-color: var(--color-ink);
+    color: var(--color-accent);
+  }
+  .stamp--archived {
+    background-color: var(--color-cream);
+    color: var(--color-muted);
+  }
+  .stamp--wip {
+    background-color: #ffffff;
+    color: var(--color-ink);
+    border-style: dashed;
+  }
+</style>

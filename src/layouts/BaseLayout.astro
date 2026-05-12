@@ -1,0 +1,64 @@
+---
+import '../styles/global.css';
+import inter900Url from '@fontsource/inter/files/inter-latin-900-normal.woff2?url';
+import Masthead from '../components/Masthead.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pageName: string;
+}
+
+const { title, description, pageName } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, 'https://preyan.pages.dev').toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href={inter900Url} as="font" type="font/woff2" crossorigin="anonymous" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <Masthead pageName={pageName} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <style>
+      .skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        background: var(--color-accent);
+        color: var(--color-ink);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 8px 12px;
+        border: 2px solid var(--color-ink);
+        z-index: 100;
+      }
+      .skip-link:focus {
+        left: 16px;
+        top: 16px;
+      }
+    </style>
+  </body>
+</html>
