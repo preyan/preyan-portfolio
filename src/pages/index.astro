@@ -262,10 +262,12 @@ const comingSoon: readonly string[] = ['Blog'];
   }
   .action-btn {
     display: inline-block;
+    flex-basis: 100%;
     font-family: var(--font-sans);
     font-weight: 900;
     font-size: 18px;
     text-transform: uppercase;
+    text-align: center;
     text-decoration: none;
     border: 3px solid var(--color-ink);
     padding: 1rem 2rem;
@@ -292,7 +294,6 @@ const comingSoon: readonly string[] = ['Blog'];
   .action-feature {
     font-size: 24px;
     padding: 1.5rem 2rem;
-    flex-basis: 100%;
   }
 
   .section {
@@ -434,10 +435,13 @@ const comingSoon: readonly string[] = ['Blog'];
       font-size: 72px;
       margin-top: 4rem;
     }
+    .action-btn {
+      flex-basis: auto;
+    }
     .action-feature {
       font-size: 32px;
       padding: 2rem 2.5rem;
-      flex-basis: auto;
+      flex-basis: 100%;
     }
     .section {
       padding: 4rem 2rem;

@@ -100,9 +100,9 @@ Personal portfolio site for Preyan Bhowmick. Brutalist aesthetic. Shipped in ver
 
 | Version | Scope | Status |
 |---|---|---|
-| **v1** | Single-page site: hub showing experience + expertise + resume download button | **Building now** |
-| **v2** | Add `/projects` — showcase of personal/work projects | Future |
-| **v3** | Add `/blog` — markdown posts authored in GitHub | Future |
+| **v1** | Single-page site: hub showing experience + expertise + resume download button | ✅ Shipped |
+| **v2** | Add /projects — showcase of personal/work projects | ✅ Shipped |
+| **v3** | Add /blog — markdown posts authored in GitHub | **Building now** |
 
 **Important:** v1 is a single page. There is no `/resume` route — the resume is a downloadable PDF only. All content (intro, experience, expertise) lives on the hub at `/`.
 
@@ -737,10 +737,240 @@ Report:
 - Build size delta vs v1
 - Any warnings or skipped items
 
-## Part 6 — v3 scope (FUTURE — do not build now)
+# CLAUDE.md — v3 ADDITION
 
-When ready for v3, the spec will be expanded to include:
-- `/blog` route reading markdown posts from a GitHub-managed folder
-- Astro Content Collection for posts
-- Individual post pages at `/blog/[slug]`
-- RSS feed at `/feed.xml`
+Replace the existing "Part 6 — v3 scope" placeholder with the content below.
+
+---
+
+## Part 6 — v3 build instructions (execute autonomously, in order)
+
+### v3 scope
+Add a blog section to the existing site. Infrastructure only — no actual blog posts yet (they'll be added later as `.mdx` files).
+
+- New route `/blog` — index page listing all posts (sorted by date, newest first)
+- Dynamic route `/blog/[slug]` — full post page with prose styling
+- Astro Content Collection backed by MDX files in `src/content/blog/`
+- One placeholder post explaining the blog is coming soon
+- Update the hub page: replace "Coming soon: Blog" line by adding a new third nav tile for BLOG, OR by removing the "Coming soon" section entirely
+- RSS feed at `/feed.xml` (optional but easy — adds it)
+
+### Tech stack additions
+MDX is already configured from v2. Add RSS support:
+```
+pnpm astro add sitemap --yes
+pnpm add @astrojs/rss
+```
+
+### Part 6.1 — Content Collection
+
+Modify `src/content/config.ts` — ADD a blog collection alongside the existing projects collection. Final file should look like this:
+
+```ts
+import { defineCollection, z } from 'astro:content';
+
+const projects = defineCollection({
+  type: 'content',
+  schema: z.object({
+    id: z.string(),
+    title: z.string(),
+    description: z.string(),
+    stack: z.array(z.string()).readonly(),
+    liveUrl: z.string().url().optional(),
+    codeUrl: z.string().url(),
+    npmUrl: z.string().url().optional(),
+    status: z.enum(['live', 'archived', 'wip']),
+    featured: z.boolean().default(false),
+    order: z.number().int().positive(),
+  }),
+});
+
+const blog = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+    readingTime: z.string().optional(),
+  }),
+});
+
+export const collections = { projects, blog };
+```
+
+### Part 6.2 — Placeholder post
+
+Create `src/content/blog/welcome.mdx`:
+
+```markdown
+---
+title: "On opening this blog"
+description: "Why I'm starting this, what I plan to write about, and a note to anyone who lands here."
+pubDate: 2026-05-12
+tags: ["meta"]
+draft: false
+readingTime: "1 min"
+---
+
+This is the start of a small writing practice — a place to put what I learn the hard way.
+
+I've spent seven years building production software at Accenture and Capgemini. Most of the lessons I've collected aren't in books or blog posts. They're the kind that surface only when you're three hours into debugging something at midnight, or when a senior engineer says something offhand that changes how you think about the next decade of your career.
+
+I want to write some of those down here.
+
+## What you can expect
+- Specific takes on things I actually use day-to-day (Angular, Node, the AI tools changing how we work)
+- Honest reflections, not hot takes
+- Short posts. I have a day job.
+
+## What you won't find
+- "Top 10 things every developer should know"
+- AI-generated filler
+- Advice on technologies I've never shipped to production
+
+First real post coming soon.
+
+— Preyan
+```
+
+### Part 6.3 — Pages
+
+**`src/pages/blog/index.astro` — BLOG INDEX**
+
+Use BaseLayout with:
+- `title="Blog — Preyan Bhowmick"`
+- `description="Writing on software engineering, the practice of shipping, and lessons from seven years in production."`
+- `pageName="BLOG"`
+
+Logic:
+- `const posts = await getCollection('blog', ({ data }) => !data.draft);`
+- Sort by `pubDate` descending (newest first)
+
+Layout:
+- Top header padding `1.5rem 2rem` border-bottom 2px black:
+  - `<p>` showing post count: e.g. "ALL POSTS · 01 ENTRY" — mono uppercase 13px letter-spacing 0.15em
+  - Use singular "ENTRY" when 1, plural "ENTRIES" otherwise
+- `<section>` containing a vertical list of `<article>` cards
+- Each card padding `2rem`, border-bottom 2px black (no border on last):
+  - Top row flex justify-between mono 12px uppercase color muted:
+    - Left: date formatted "DD MMM YYYY" via `Intl.DateTimeFormat`
+    - Right: reading time if present
+  - `<h2><a href={`/blog/${post.slug}`}>{title}</a></h2>` Inter 900 32px desktop / 24px mobile uppercase margin-top 1rem, no underline on the link, hover underline
+  - `<p>{description}</p>` body 16px line-height 1.5 color muted margin-top 0.75rem max-width 640px
+  - Tag row margin-top 1rem: each tag as `<span>` mono 11px uppercase, 2px solid black border, padding 4px 8px, margin-right 8px
+  - `<a href={`/blog/${post.slug}`}>READ →</a>` mono 13px uppercase margin-top 1rem, display inline-block
+- If no posts (empty array case), show a single centered message: "NO POSTS YET. CHECK BACK SOON." in mono uppercase
+
+**`src/pages/blog/[slug].astro` — BLOG POST PAGE**
+
+Use `getStaticPaths` to generate one page per non-draft post.
+
+```ts
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+```
+
+BaseLayout props:
+- `title={`${post.data.title} — Preyan Bhowmick`}`
+- `description={post.data.description}`
+- `pageName={`BLOG / ${post.data.title}`}`
+
+Layout:
+- **Header** max-width 720px centered padding `3rem 2rem 2rem`:
+  - Metadata row mono 12px uppercase color muted: date · reading time · tags inline
+  - `<h1>{title}</h1>` Inter 900 48px desktop / 32px mobile uppercase line-height 1.1 letter-spacing -0.02em margin-top 1.5rem
+  - `<p>{description}</p>` body 18px line-height 1.5 color muted margin-top 1rem italic
+  - Thin 2px black `<hr>` margin-top 2rem
+- **Article body** max-width 720px centered padding `2rem`:
+  - Render `<Content />` from MDX with prose styling:
+    - h2: Inter 900 28px uppercase border-bottom 2px black margin-top 2.5rem padding-bottom 0.5rem
+    - h3: Inter 900 20px uppercase margin-top 2rem
+    - p: Inter 400 17px line-height 1.7 margin-top 1.25rem
+    - ul, ol: padding-left 1.5rem, list-style none for ul (with "— " prefix via ::before), decimal for ol
+    - li: margin-bottom 0.5rem line-height 1.7
+    - inline code: mono background accent yellow padding 1px 6px font-size 15px
+    - pre: 2px solid black border padding 1.25rem mono 14px overflow-x auto background cream margin 1.5rem 0
+    - blockquote: 4px left border accent yellow padding 0.5rem 0 0.5rem 1.5rem font-style italic margin 1.5rem 0
+    - a: underline, hover bg accent yellow
+    - hr: 1px solid black margin 2rem 0
+  - Closing signature: after the content, a separator and "— Preyan" line in mono italic
+- **Bottom nav** max-width 720px centered padding `2rem` border-top 2px black:
+  - `<a href="/blog">← BACK TO BLOG</a>` mono uppercase 14px
+
+### Part 6.4 — RSS feed
+
+Create `src/pages/feed.xml.js`:
+
+```js
+import rss from '@astrojs/rss';
+import { getCollection } from 'astro:content';
+
+export async function GET(context) {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return rss({
+    title: 'Preyan Bhowmick — Blog',
+    description: 'Writing on software engineering, the practice of shipping, and lessons from seven years in production.',
+    site: context.site,
+    items: posts
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+      .map((post) => ({
+        title: post.data.title,
+        pubDate: post.data.pubDate,
+        description: post.data.description,
+        link: `/blog/${post.slug}/`,
+      })),
+    customData: `<language>en</language>`,
+  });
+}
+```
+
+### Part 6.5 — Update existing hub page
+
+Modify `src/pages/index.astro`:
+
+1. **Find the nav section** (currently has 2 tiles: RESUME and PROJECTS from v2)
+
+2. **Add a third tile** for BLOG with matching styling:
+   - Tile 3: `<a href="/blog">` with text "BLOG →" — same Inter 900 32px uppercase, 3px solid black border, padding `2rem 2.5rem`, hover bg ink text cream
+   - On desktop: three tiles side-by-side in a CSS grid `grid-template-columns: repeat(3, 1fr)` with gap 1rem
+   - On mobile: stack vertically (single column)
+
+3. **Remove the "Coming soon" section entirely** (Section 4 from v1):
+   - The whole section with the "COMING SOON / VOL. II" label and the `<ul>` list
+   - It's no longer needed — all sections are now live
+
+### Part 6.6 — Update BaseLayout for RSS discovery
+
+In `src/layouts/BaseLayout.astro`, add to the `<head>` section:
+
+```html
+<link rel="alternate" type="application/rss+xml" title="Preyan Bhowmick — Blog" href="/feed.xml" />
+```
+
+### Part 6.7 — Verification
+
+Run `pnpm build`. Must complete with zero errors. Fix any errors.
+
+Run `pnpm preview` and confirm:
+- `/` returns 200, shows updated hub with three nav tiles (Resume, Projects, Blog), no "Coming soon" section
+- `/blog` returns 200, shows the "On opening this blog" placeholder post with date, title, description, tags, READ link
+- `/blog/welcome` returns 200, shows the full placeholder post with proper prose styling
+- `/feed.xml` returns 200, valid XML RSS feed with 1 item
+- Existing routes still work: `/projects`, `/projects/velora`, `/projects/preyan-portfolio`, `/projects/rand-name-gen`
+- `/nonexistent-route` returns the 404 page
+
+Stage all changes with `git add .`. **Do NOT commit** — Preyan will review and commit himself.
+
+Report:
+- Total files created vs modified
+- Build size delta vs v2
+- Number of posts detected by content collection
+- Any warnings or skipped items
