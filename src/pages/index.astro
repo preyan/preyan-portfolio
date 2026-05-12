@@ -4,21 +4,22 @@ import Stamp from '../components/Stamp.astro';
 
 const title = 'Preyan Bhowmick — Full Stack Engineer';
 const description =
-  'Senior Full Stack Developer at Accenture, based in Kolkata. I build production web applications with Angular, Node.js, and NestJS — currently focused on performance, mentorship, and shipping software that works.';
+  'Senior Full Stack Developer at Accenture, based in Kolkata. Seven years shipping production web applications across Angular, Node.js, NestJS, and .NET — focused on performance, mentorship, and software that holds up in the wild.';
 
 const accentureBullets: readonly string[] = [
-  'Build full-stack modules with Angular (frontend) and Node.js/NestJS (backend), wired to MongoDB via Mongoose',
-  'Designed and shipped REST APIs across Express and NestJS for production workloads',
-  'Refactored backend to TypeScript-first — measurable gains in maintainability and type safety',
-  'Led API performance tuning that cut response times by 30%',
-  'Mentored junior engineers on frontend architecture and backend patterns; contributed to ~30% team velocity lift',
+  'Own full-stack modules end-to-end — Angular on the frontend, NestJS and Mongoose on the backend, MongoDB underneath',
+  'Design and ship production REST APIs across Express and NestJS for high-traffic enterprise workloads',
+  'Integrate .NET / ASP.NET Core microservices with the Node.js stack to bridge hybrid-architecture client estates',
+  'Migrated the backend to a TypeScript-first stack — sharper service contracts and a measurable drop in runtime surprises',
+  'Led API performance work — query tuning, indexing, async patterns — cutting median response times by 30%',
+  'Mentor junior engineers on architecture, code review, and patterns; contributed to a ~30% lift in team velocity',
 ];
 
 const capgeminiBullets: readonly string[] = [
-  'Shipped full-stack features in Angular + Node.js + MongoDB; ~20% application efficiency improvement',
-  'Built REST APIs and refactored backend services for ~30% faster response times',
-  'Partnered with QA and DevOps to streamline Azure DevOps pipelines, cutting deployment time by ~30%',
-  'Used Git + Jira to coordinate sprint planning across distributed teams',
+  'Shipped full-stack features across Angular, Node.js, and MongoDB; lifted application efficiency by ~20%',
+  'Built REST APIs and refactored core backend services — ~30% faster response times in production',
+  'Streamlined Azure DevOps pipelines alongside QA and DevOps, cutting deployment time by ~30%',
+  'Coordinated sprint planning and delivery across distributed teams using Git and Jira',
 ];
 
 interface ExpertiseGroup {
@@ -43,7 +44,7 @@ const expertise: readonly ExpertiseGroup[] = [
       'ngBootstrap',
     ],
   },
-  { label: 'BACKEND', skills: ['Node.js', 'NestJS', 'Express', 'REST APIs'] },
+  { label: 'BACKEND', skills: ['Node.js', 'NestJS', 'Express', 'REST APIs', '.NET'] },
   { label: 'DATABASE', skills: ['MongoDB', 'MySQL', 'Oracle', 'SQL', 'NoSQL'] },
   {
     label: 'DEVOPS & TOOLS',
@@ -59,18 +60,33 @@ const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
 <BaseLayout title={title} description={description} pageName="HOME">
   <section class="hero">
     <p class="pre-label">PREYAN.DEV / EST. 2026 / IDX 001</p>
-    <div class="hero-stamp">
-      <Stamp text="AVAILABLE" variant="available" rotation={3} />
+    <div class="hero-grid">
+      <div class="hero-text">
+        <h1>FULL STACK ENGINEER WHO SHIPS.</h1>
+        <p class="sub-headline">{description}</p>
+        <p class="contact">
+          <a href="mailto:preyan1997@gmail.com">preyan1997@gmail.com</a> ·
+          <a href="tel:+919836556742">+91 98365 56742</a> · Kolkata, India
+        </p>
+        <a class="resume-btn" href="/resume.pdf" aria-label="Download resume PDF" download>
+          DOWNLOAD RESUME ↓
+        </a>
+      </div>
+      <figure class="polaroid" aria-label="Photo of Preyan Bhowmick">
+        <div class="polaroid-stamp">
+          <Stamp text="AVAILABLE" variant="available" rotation={-6} />
+        </div>
+        <img
+          src="/preyan.svg"
+          alt="Preyan Bhowmick"
+          width="320"
+          height="320"
+          loading="eager"
+          decoding="async"
+        />
+        <figcaption>PREYAN</figcaption>
+      </figure>
     </div>
-    <h1>FULL STACK ENGINEER WHO SHIPS.</h1>
-    <p class="sub-headline">{description}</p>
-    <p class="contact">
-      <a href="mailto:preyan1997@gmail.com">preyan1997@gmail.com</a> ·
-      <a href="tel:+919836556742">+91 98365 56742</a> · Kolkata, India
-    </p>
-    <a class="resume-btn" href="/resume.pdf" aria-label="Download resume PDF" download>
-      DOWNLOAD RESUME ↓
-    </a>
   </section>
 
   <section class="section" aria-labelledby="exp-heading">
@@ -131,13 +147,56 @@ const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
 
 <style>
   .hero {
-    position: relative;
     padding: 2rem 1.5rem;
   }
-  .hero-stamp {
+  .hero-grid {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2.5rem;
+    align-items: flex-start;
+  }
+  .hero-text {
+    width: 100%;
+  }
+  .polaroid {
+    position: relative;
+    margin: 1.25rem 0 0 0;
+    padding: 10px 10px 0 10px;
+    background-color: #ffffff;
+    border: 3px solid var(--color-ink);
+    transform: rotate(3deg);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 200px;
+    align-self: center;
+    flex-shrink: 0;
+  }
+  .polaroid img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border: 2px solid var(--color-ink);
+    background-color: var(--color-cream);
+  }
+  .polaroid figcaption {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-align: center;
+    padding: 10px 4px 8px 4px;
+    color: var(--color-ink);
+  }
+  .polaroid-stamp {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
+    top: -18px;
+    right: -22px;
+    z-index: 2;
   }
   .pre-label {
     font-family: var(--font-mono);
@@ -154,7 +213,7 @@ const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
     line-height: 0.95;
     letter-spacing: -0.04em;
     text-transform: uppercase;
-    margin: 2rem 0 0 0;
+    margin: 0;
   }
   .sub-headline {
     max-width: 540px;
@@ -313,9 +372,20 @@ const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
     .hero {
       padding: 4rem 2rem;
     }
-    .hero-stamp {
-      top: 2rem;
-      right: 2rem;
+    .hero-grid {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+    .hero-text {
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .polaroid {
+      width: 320px;
+      margin: 0;
+      align-self: flex-start;
     }
     .hero h1 {
       font-size: 72px;

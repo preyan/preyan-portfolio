@@ -1,5 +1,6 @@
 # build output
 dist/
+
 # generated types
 .astro/
 
@@ -12,13 +13,37 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
 # environment variables
 .env
-.env.production
+.env.*
+!.env.example
 
-# macOS-specific files
+# Cloudflare / Wrangler local state
+.wrangler/
+.dev.vars
+.dev.vars.*
+
+# Other platform CLI cache (in case anything stray gets created)
+.vercel/
+.netlify/
+
+# OS-specific
 .DS_Store
+Thumbs.db
+desktop.ini
 
-# jetbrains setting folder
+# Editor / IDE
 .idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/*.code-snippets
+
+# Claude Code (per-user state)
+.claude/settings.local.json
+
+# Misc
+.cache/
+coverage/
+*.log
