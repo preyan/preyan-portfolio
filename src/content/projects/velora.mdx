@@ -1,0 +1,40 @@
+---
+id: "001"
+title: "VELORA"
+description: "A cinematic quote experience. Fullscreen, atmospheric, immersive. Built with Angular 21 and the Web Audio API."
+stack: ["Angular 21", "Signals", "Web Audio API", "SCSS", "Bun"]
+liveUrl: "https://preyan.github.io/velora"
+codeUrl: "https://github.com/preyan/velora"
+status: "live"
+featured: true
+order: 1
+---
+
+## What it is
+Velora is a fullscreen, immersive quote app that transforms how you experience words. Every animation, sound, and color shift is intentional. The goal: to make you feel something.
+
+## Why I built it
+Inspired by Interstellar, Apple, and A24. Most quote apps treat words as content to consume. I wanted to treat them as something to sit with — fullscreen, with ambient audio, cinematic transitions, and zero clutter.
+
+## Architecture
+- Angular 21 standalone components, no NgModules
+- Signals for reactive state across QuoteService, ThemeService, AudioService
+- Shallow component tree, maximum 4 levels deep
+- Composition over abstraction
+
+## The interesting parts
+- Web Audio API with smooth fade transitions between ambient tracks
+- Persistent theme and audio settings via localStorage
+- Screenshot export of any quote as a PNG
+- Keyboard shortcuts (P/N for navigation, T for themes, Ctrl+S for capture)
+
+## Performance
+- 81KB production bundle
+- Smooth 60fps animations across all themes
+- Lighthouse score above 90, WCAG AAA accessibility
+
+## What I'd do differently
+Cinematic autoplay was deferred. Shareable URLs that encode quote + theme would have been worth front-loading. The audio engine is also overbuilt for the current track count — designed for 20+ tracks, ships with 3.
+
+## Stack
+Angular 21 · Signals · Web Audio API · SCSS · Bun

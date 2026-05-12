@@ -1,0 +1,30 @@
+---
+id: "002"
+title: "PREYAN.GITHUB.IO"
+description: "This portfolio. Brutalist design, content-driven architecture, statically generated for speed."
+stack: ["Astro 5", "MDX", "Tailwind 4", "TypeScript", "GitHub Pages"]
+liveUrl: "https://preyan.github.io"
+codeUrl: "https://github.com/preyan/preyan.github.io"
+status: "live"
+featured: false
+order: 2
+---
+
+## What it is
+The site you're reading. A brutalist personal portfolio that doubles as a project itself.
+
+## Why this approach
+Most developer portfolios in 2026 look the same — Inter, gradients, glassmorphism, animation libraries. I wanted something that felt like a publication: hard borders, monospace metadata, status stamps, real content over decoration.
+
+## Decisions
+- Astro over Next.js for content-first sites — ships zero JS by default
+- Path routing for simplicity — every section gets a clean URL without subdomain DNS overhead
+- MDX content collections for type-safe project frontmatter — typos fail the build
+- Tailwind 4 with custom design tokens — brutalist palette defined once
+- GitHub Pages for free, fast static hosting with automatic SSL
+
+## What I learned
+Shipping fast required cutting scope aggressively. Originally planned subdomains, a blog, and an ideas wall — v1 launched with just the hub. The constraint forced better decisions: no feature made the cut unless it was essential.
+
+## Stack
+Astro 5 · MDX · Tailwind 4 · TypeScript · GitHub Pages

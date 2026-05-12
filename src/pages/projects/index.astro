@@ -1,0 +1,197 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Stamp from '../../components/Stamp.astro';
+
+type ProjectEntry = CollectionEntry<'projects'>;
+
+const projects: ProjectEntry[] = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+// Build-time count, zero-padded so the header reads "03 ENTRIES" rather than a hardcoded literal.
+const entryCount = projects.length.toString().padStart(2, '0');
+
+const stampTextFor = (status: ProjectEntry['data']['status']): string => status.toUpperCase();
+---
+
+<BaseLayout
+  title="Projects — Preyan Bhowmick"
+  description="Selected projects by Preyan Bhowmick — Velora, this portfolio, and more."
+  pageName="PROJECTS"
+>
+  <header class="index-header">
+    <p class="index-label">ALL PROJECTS · {entryCount} ENTRIES</p>
+  </header>
+
+  <section class="grid" aria-label="Projects list">
+    {
+      projects.map((project) => {
+        const { id, data } = project;
+        const { title, description, stack, liveUrl, codeUrl, npmUrl, status, featured } = data;
+        return (
+          <article class="card">
+            <div class="card-top">
+              <p class="card-number">#{data.id}</p>
+              <div class="card-stamps">
+                <Stamp text={stampTextFor(status)} variant={status} rotation={2} />
+                {featured && <Stamp text="FEATURED" variant="featured" rotation={-2} />}
+              </div>
+            </div>
+            <h2 class="card-title">{title}</h2>
+            <p class="card-desc">{description}</p>
+            <div class="pills">
+              {stack.map((tech) => (
+                <span class="pill">{tech}</span>
+              ))}
+            </div>
+            <div class="card-links">
+              {liveUrl && (
+                <a class="card-link" href={liveUrl} target="_blank" rel="noopener noreferrer">
+                  LIVE ↗
+                </a>
+              )}
+              <a class="card-link" href={codeUrl} target="_blank" rel="noopener noreferrer">
+                CODE ↗
+              </a>
+              <a class="card-link" href={`/projects/${id}`}>WRITE-UP →</a>
+              {npmUrl && (
+                <a class="card-link" href={npmUrl} target="_blank" rel="noopener noreferrer">
+                  NPM ↗
+                </a>
+              )}
+            </div>
+          </article>
+        );
+      })
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .index-header {
+    padding: 1.5rem 2rem;
+    border-bottom: 2px solid var(--color-ink);
+  }
+  .index-label {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 0;
+  }
+
+  .card {
+    /* Brutalist tile: 2px solid ink on every edge.
+       Cards share borders by negative-margin on the inline-start/block-start
+       so doubled edges collapse into a single 2px rule between neighbours. */
+    border: 2px solid var(--color-ink);
+    padding: 1.5rem;
+    margin-top: -2px;
+    margin-left: -2px;
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    position: relative;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .card-number {
+    font-family: var(--font-sans);
+    font-weight: 900;
+    font-size: 32px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .card-stamps {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
+
+  .card-title {
+    font-family: var(--font-sans);
+    font-weight: 900;
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 1.5rem 0 0 0;
+  }
+  .card-desc {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--color-muted);
+    margin: 0.5rem 0 0 0;
+  }
+
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .pill {
+    display: inline-block;
+    border: 2px solid var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 6px 10px;
+    margin: 4px 8px 4px 0;
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+  }
+
+  .card-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .card-link {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Sharp swap on hover — no transitions, brutalist intent. */
+  .card:hover,
+  .card:focus-within {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+  }
+  .card:hover .card-number,
+  .card:focus-within .card-number {
+    color: var(--color-accent);
+  }
+  .card:hover .card-desc,
+  .card:focus-within .card-desc,
+  .card:hover .card-title,
+  .card:focus-within .card-title,
+  .card:hover .card-link,
+  .card:focus-within .card-link {
+    color: var(--color-cream);
+  }
+  .card:hover .pill,
+  .card:focus-within .pill {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+    border-color: var(--color-cream);
+  }
+</style>

@@ -468,20 +468,274 @@ After VQ ends — connect Cloudflare Pages:
 3. Framework preset: Astro
 4. Build command: `pnpm build`
 5. Output directory: `dist`
-6. Env var: `NODE_VERSION=20`
+6. Env var: `NODE_VERSION=22`
 7. Save and Deploy
 
-Live in ~90 seconds at `preyan-portfolio.pages.dev`.
 
+## Part 5 — v2 build instructions (execute autonomously, in order)
+
+### v2 scope
+Add a projects showcase to the existing site:
+- New route `/projects` — index page with project cards
+- Dynamic route `/projects/[slug]` — full write-up per project
+- Astro Content Collection backed by MDX files
+- Three projects: Velora (featured), preyan-portfolio, rand-name-gen
+- Add a `PROJECTS →` nav tile to the existing hub page
+- Update the hub's "Coming soon" section to remove "Projects showcase" and keep only "Blog"
+
+### Tech stack additions
+Run only if not already present:
+```
+pnpm astro add mdx --yes
+```
+
+(Tailwind is already configured from v1 — do not re-add.)
+
+### Part 5.1 — Content Collection
+
+Create `src/content/config.ts`:
+
+```ts
+import { defineCollection, z } from 'astro:content';
+
+const projects = defineCollection({
+  type: 'content',
+  schema: z.object({
+    id: z.string(),
+    title: z.string(),
+    description: z.string(),
+    stack: z.array(z.string()).readonly(),
+    liveUrl: z.string().url().optional(),
+    codeUrl: z.string().url(),
+    npmUrl: z.string().url().optional(),
+    status: z.enum(['live', 'archived', 'wip']),
+    featured: z.boolean().default(false),
+    order: z.number().int().positive(),
+  }),
+});
+
+export const collections = { projects };
+```
+
+### Part 5.2 — MDX content files
+
+Create `src/content/projects/velora.mdx`:
+
+```markdown
+---
+id: "001"
+title: "VELORA"
+description: "A cinematic quote experience. Fullscreen, atmospheric, immersive. Built with Angular 21 and the Web Audio API."
+stack: ["Angular 21", "Signals", "Web Audio API", "SCSS", "Bun"]
+liveUrl: "https://preyan.github.io/velora"
+codeUrl: "https://github.com/preyan/velora"
+status: "live"
+featured: true
+order: 1
 ---
 
-## Part 5 — v2 scope (FUTURE — do not build now)
+## What it is
+Velora is a fullscreen, immersive quote app that transforms how you experience words. Every animation, sound, and color shift is intentional. The goal: to make you feel something.
 
-When ready for v2, the spec will be expanded to include:
-- `/projects` route with project showcase cards
-- Astro Content Collection for projects with zod schema
-- MDX-based project detail pages at `/projects/[slug]`
-- Featured projects: Velora (https://github.com/preyan/velora), this portfolio, rand-name-gen
+## Why I built it
+Inspired by Interstellar, Apple, and A24. Most quote apps treat words as content to consume. I wanted to treat them as something to sit with — fullscreen, with ambient audio, cinematic transitions, and zero clutter.
+
+## Architecture
+- Angular 21 standalone components, no NgModules
+- Signals for reactive state across QuoteService, ThemeService, AudioService
+- Shallow component tree, maximum 4 levels deep
+- Composition over abstraction
+
+## The interesting parts
+- Web Audio API with smooth fade transitions between ambient tracks
+- Persistent theme and audio settings via localStorage
+- Screenshot export of any quote as a PNG
+- Keyboard shortcuts (P/N for navigation, T for themes, Ctrl+S for capture)
+
+## Performance
+- 81KB production bundle
+- Smooth 60fps animations across all themes
+- Lighthouse score above 90, WCAG AAA accessibility
+
+## What I'd do differently
+Cinematic autoplay was deferred. Shareable URLs that encode quote + theme would have been worth front-loading. The audio engine is also overbuilt for the current track count — designed for 20+ tracks, ships with 3.
+
+## Stack
+Angular 21 · Signals · Web Audio API · SCSS · Bun
+```
+
+Create `src/content/projects/preyan-portfolio.mdx`:
+
+```markdown
+---
+id: "002"
+title: "PREYAN.GITHUB.IO"
+description: "This portfolio. Brutalist design, content-driven architecture, statically generated for speed."
+stack: ["Astro 5", "MDX", "Tailwind 4", "TypeScript", "GitHub Pages"]
+liveUrl: "https://preyan.github.io"
+codeUrl: "https://github.com/preyan/preyan.github.io"
+status: "live"
+featured: false
+order: 2
+---
+
+## What it is
+The site you're reading. A brutalist personal portfolio that doubles as a project itself.
+
+## Why this approach
+Most developer portfolios in 2026 look the same — Inter, gradients, glassmorphism, animation libraries. I wanted something that felt like a publication: hard borders, monospace metadata, status stamps, real content over decoration.
+
+## Decisions
+- Astro over Next.js for content-first sites — ships zero JS by default
+- Path routing for simplicity — every section gets a clean URL without subdomain DNS overhead
+- MDX content collections for type-safe project frontmatter — typos fail the build
+- Tailwind 4 with custom design tokens — brutalist palette defined once
+- GitHub Pages for free, fast static hosting with automatic SSL
+
+## What I learned
+Shipping fast required cutting scope aggressively. Originally planned subdomains, a blog, and an ideas wall — v1 launched with just the hub. The constraint forced better decisions: no feature made the cut unless it was essential.
+
+## Stack
+Astro 5 · MDX · Tailwind 4 · TypeScript · GitHub Pages
+```
+
+Create `src/content/projects/rand-name-gen.mdx`:
+
+```markdown
+---
+id: "003"
+title: "RAND-NAME-GEN"
+description: "A small npm package for generating random names with configurable options. A sandbox for learning dual-publishing across npm and JSR."
+stack: ["TypeScript", "tsup", "npm", "JSR"]
+codeUrl: "https://github.com/preyan/rand-name-gen"
+npmUrl: "https://npmjs.com/package/rand-name-gen"
+status: "archived"
+featured: false
+order: 3
+---
+
+## What it is
+A small npm package that returns random names with configurable options (title, first, last). Published to both npm and JSR.
+
+## Why it exists
+I wanted to learn the full package publishing flow — semantic versioning, dual registry publishing, CI release automation — without the pressure of a real product. This was the sandbox.
+
+## What I learned
+- Dual-publishing to npm and JSR from a single source
+- tsup for zero-config TypeScript bundling
+- Automated changelog generation via GitHub Actions
+- The surprisingly involved metadata required for a good citizen package — keywords, repository, bugs, exports map
+
+## Status
+Archived. Goal achieved.
+
+## Stack
+TypeScript · tsup · npm · JSR
+```
+
+### Part 5.3 — Pages
+
+**`src/pages/projects/index.astro` — PROJECTS INDEX**
+
+Use BaseLayout with:
+- `title="Projects — Preyan Bhowmick"`
+- `description="Selected projects by Preyan Bhowmick — Velora, this portfolio, and more."`
+- `pageName="PROJECTS"`
+
+Layout:
+- Top header padding `1.5rem 2rem` border-bottom 2px black:
+  - `<p>` "ALL PROJECTS · 03 ENTRIES" mono uppercase 13px letter-spacing 0.15em
+- `<section>` containing a CSS grid `auto-fit minmax(320px, 1fr)`, gap 0 (cards share borders)
+- Sort projects by `order` field ascending
+- Each card as `<article>` with 2px solid black border, padding 1.5rem:
+  - Top flex row justify-between align-start:
+    - `<p>` project number `"#001"` / `"#002"` / `"#003"` Inter 900 32px uppercase (left)
+    - Stamps stacked on right (top to bottom): status stamp, plus FEATURED stamp if `featured === true`
+  - `<h2>{title}</h2>` Inter 900 28px uppercase margin-top 1.5rem
+  - `<p>{description}</p>` body 15px line-height 1.5 color muted margin-top 0.5rem
+  - `<div>` stack pills row, margin-top 1rem (same pill styling from the v1 expertise section)
+  - `<div>` link row margin-top 1.5rem, flex gap 1.5rem, mono 13px uppercase:
+    - `<a href={liveUrl} target="_blank" rel="noopener noreferrer">LIVE ↗</a>` if `liveUrl`
+    - `<a href={codeUrl} target="_blank" rel="noopener noreferrer">CODE ↗</a>` always
+    - `<a href={`/projects/${slug}`}>WRITE-UP →</a>` always (internal, no target blank)
+    - `<a href={npmUrl} target="_blank" rel="noopener noreferrer">NPM ↗</a>` if `npmUrl`
+- Hover on the entire `<article>` card: background ink, project number text accent yellow, all other text cream (no transition — sharp)
+- Cards stack full-width on mobile
+
+**`src/pages/projects/[slug].astro` — PROJECT DETAIL**
+
+Use `getStaticPaths` to generate one page per project from the content collection.
+
+```ts
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+```
+
+BaseLayout props:
+- `title={`${project.data.title} — Preyan Bhowmick`}`
+- `description={project.data.description}`
+- `pageName={`PROJECT / ${project.data.title}`}`
+
+Layout:
+- **Header** padding 2rem border-bottom 2px black:
+  - `<p>` project number "#001" etc — Inter 900 24px color muted
+  - Stamps below: status (always), FEATURED if applicable
+  - `<h1>{project.data.title}</h1>` Inter 900 56px desktop / 36px mobile uppercase margin-top 1rem
+  - `<p>{project.data.description}</p>` body 18px max-width 600px margin-top 1rem
+- **Metadata strip** padding `1.5rem 2rem` border-bottom 2px black, flex justify-between align-center wrap:
+  - Left: stack pills inline
+  - Right: external links (LIVE ↗ CODE ↗ NPM ↗) — target blank, rel noopener noreferrer
+- **Article body** max-width 720px centered padding `3rem 2rem`, renders `<Content />` from the MDX:
+  - h2: Inter 900 28px uppercase border-bottom 2px black margin-top 2rem padding-bottom 0.5rem
+  - h3: Inter 900 20px uppercase margin-top 1.5rem
+  - p: Inter 400 16px line-height 1.7
+  - ul: list-style none, padding-left 0, each li with "— " prefix via `::before` content
+  - inline code: mono background accent yellow padding 1px 4px font-size 14px
+  - pre: 2px black border padding 1rem mono 13px overflow-x auto background cream
+  - blockquote: 4px left border accent yellow padding-left 1rem font-style italic margin-left 0
+- **Bottom nav** padding 2rem border-top 2px black:
+  - `<a href="/projects">← BACK TO PROJECTS</a>` mono uppercase 14px
+
+### Part 5.4 — Update existing hub page
+
+Modify `src/pages/index.astro`:
+
+1. **Find the existing nav section** (the single tile with "RESUME →" or similar from v1)
+
+2. **Replace it with a two-tile nav** matching the v1 styling:
+   - Tile 1: existing resume download (keep as-is)
+   - Tile 2 (NEW): `<a href="/projects">` with text "PROJECTS →" — Inter 900 32px uppercase, 3px solid black border, padding `2rem 2.5rem`, hover background ink text cream
+   - Layout: side-by-side desktop with gap 1rem, stacked vertically on mobile
+
+3. **Update the "Coming soon" section** (Section 4 in the v1 spec):
+   - Remove the line "Projects showcase" from the `<ul>`
+   - Keep only "Blog" in the list
+   - If the ul only has one item now, that's fine — keep the list structure
+
+### Part 5.5 — Verification
+
+Run `pnpm build`. Must complete with zero errors. Fix any errors.
+
+Run `pnpm preview` and confirm:
+- `/` returns 200, shows updated hub with two nav tiles and updated "Coming soon"
+- `/projects` returns 200, shows 3 project cards in order
+- `/projects/velora` returns 200, shows full Velora write-up
+- `/projects/preyan-portfolio` returns 200, shows portfolio write-up
+- `/projects/rand-name-gen` returns 200, shows rand-name-gen write-up
+- `/nonexistent` returns 404 page
+- All MDX content renders correctly (headings, lists, code blocks if any)
+
+Stage all changes with `git add .`. **Do NOT commit** — Preyan will review and commit himself.
+
+Report:
+- Total files created vs modified
+- Build size delta vs v1
+- Any warnings or skipped items
 
 ## Part 6 — v3 scope (FUTURE — do not build now)
 

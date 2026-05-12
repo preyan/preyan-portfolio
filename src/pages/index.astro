@@ -54,7 +54,7 @@ const expertise: readonly ExpertiseGroup[] = [
   { label: 'UTILITIES', skills: ['Lodash', 'Day.js'] },
 ];
 
-const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
+const comingSoon: readonly string[] = ['Blog'];
 ---
 
 <BaseLayout title={title} description={description} pageName="HOME">
@@ -68,9 +68,21 @@ const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
           <a href="mailto:preyan1997@gmail.com">preyan1997@gmail.com</a> ·
           <a href="tel:+919836556742">+91 98365 56742</a> · Kolkata, India
         </p>
-        <a class="resume-btn" href="/resume.pdf" aria-label="Download resume PDF" download>
-          DOWNLOAD RESUME ↓
-        </a>
+        <div class="hero-actions">
+          <a class="action-btn action-primary action-feature" href="/projects">
+            PROJECTS →
+          </a>
+          <a class="action-btn action-primary" href="/resume.pdf" aria-label="Download resume PDF" download>
+            DOWNLOAD RESUME ↓
+          </a>
+          <a
+            class="action-btn action-secondary"
+            href="mailto:preyan1997@gmail.com?subject=Hello%20Preyan"
+            aria-label="Send Preyan an email"
+          >
+            CONNECT OVER EMAIL →
+          </a>
+        </div>
       </div>
       <figure class="headshot" aria-label="Headshot of Preyan Bhowmick">
         <div class="headshot-frame">
@@ -242,7 +254,13 @@ const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
     text-decoration: underline;
     text-underline-offset: 3px;
   }
-  .resume-btn {
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .action-btn {
     display: inline-block;
     font-family: var(--font-sans);
     font-weight: 900;
@@ -251,15 +269,30 @@ const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
     text-decoration: none;
     border: 3px solid var(--color-ink);
     padding: 1rem 2rem;
-    margin-top: 2rem;
-    background-color: var(--color-cream);
-    color: var(--color-ink);
     transition: background-color 0.15s ease, color 0.15s ease;
   }
-  .resume-btn:hover,
-  .resume-btn:focus-visible {
+  .action-primary {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+  }
+  .action-primary:hover,
+  .action-primary:focus-visible {
     background-color: var(--color-ink);
     color: var(--color-cream);
+  }
+  .action-secondary {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+  }
+  .action-secondary:hover,
+  .action-secondary:focus-visible {
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+  }
+  .action-feature {
+    font-size: 24px;
+    padding: 1.5rem 2rem;
+    flex-basis: 100%;
   }
 
   .section {
@@ -400,6 +433,11 @@ const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
     .hero h1 {
       font-size: 72px;
       margin-top: 4rem;
+    }
+    .action-feature {
+      font-size: 32px;
+      padding: 2rem 2.5rem;
+      flex-basis: auto;
     }
     .section {
       padding: 4rem 2rem;
