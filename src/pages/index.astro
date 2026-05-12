@@ -105,35 +105,72 @@ const expertise: readonly ExpertiseGroup[] = [
     </div>
   </section>
 
-  <section class="section" aria-labelledby="exp-heading">
-    <h2 id="exp-heading">EXPERIENCE</h2>
+  <section class="section experience" aria-labelledby="exp-heading">
+    <header class="section-header">
+      <h2 id="exp-heading">§ 02 — EXPERIENCE</h2>
+      <span class="section-count">ENTRIES / 02</span>
+    </header>
 
-    <article>
+    <article class="exp-card">
+      <span class="entry-badge">[ENTRY 01]</span>
       <header class="exp-head">
-        <h3>ACCENTURE</h3>
-        <p class="exp-meta">Feb 2022 — Present · Kolkata</p>
+        <div class="exp-head-text">
+          <h3>ACCENTURE</h3>
+          <p class="exp-role">Senior Full Stack Developer</p>
+        </div>
+        <div class="date-stamp" aria-label="February 2022 to Present, Kolkata">
+          <span>FEB 2022 — PRESENT</span>
+          <span>KOLKATA</span>
+        </div>
       </header>
-      <p class="exp-role">Senior Full Stack Developer</p>
-      <ul class="exp-list">
-        {accentureBullets.map((bullet) => <li>{bullet}</li>)}
-      </ul>
-      <p class="exp-awards">AWARDS: Growth Catalyst, Star Performer</p>
+      <hr class="exp-rule" />
+      <ol class="exp-list">
+        {
+          accentureBullets.map((bullet, i) => (
+            <li>
+              <span class="bullet-num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="bullet-arrow" aria-hidden="true">→</span>
+              <span class="bullet-text">{bullet}</span>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="awards-badge">
+        <span class="awards-label">AWARDS</span>
+        <span class="awards-text">Growth Catalyst · Star Performer</span>
+      </div>
     </article>
 
-    <hr />
-
-    <article>
+    <article class="exp-card">
+      <span class="entry-badge">[ENTRY 02]</span>
       <header class="exp-head">
-        <h3>CAPGEMINI</h3>
-        <p class="exp-meta">Jul 2018 — Feb 2022 · Mumbai</p>
+        <div class="exp-head-text">
+          <h3>CAPGEMINI</h3>
+          <p class="exp-role">Full Stack Developer</p>
+        </div>
+        <div class="date-stamp" aria-label="July 2018 to February 2022, Mumbai">
+          <span>JUL 2018 — FEB 2022</span>
+          <span>MUMBAI</span>
+        </div>
       </header>
-      <p class="exp-role">Full Stack Developer</p>
-      <ul class="exp-list">
-        {capgeminiBullets.map((bullet) => <li>{bullet}</li>)}
-      </ul>
-      <p class="exp-awards">
-        AWARDS: Xtra Mile, Star Performer, Certificate of Appreciation; Finalist — Burger Hack 2.0
-      </p>
+      <hr class="exp-rule" />
+      <ol class="exp-list">
+        {
+          capgeminiBullets.map((bullet, i) => (
+            <li>
+              <span class="bullet-num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="bullet-arrow" aria-hidden="true">→</span>
+              <span class="bullet-text">{bullet}</span>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="awards-badge">
+        <span class="awards-label">AWARDS</span>
+        <span class="awards-text"
+          >Xtra Mile · Star Performer · Certificate of Appreciation · Finalist Burger Hack 2.0</span
+        >
+      </div>
     </article>
   </section>
 
@@ -314,61 +351,161 @@ const expertise: readonly ExpertiseGroup[] = [
     margin: 0 0 2rem 0;
   }
 
+  .section-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid var(--color-ink);
+    margin-bottom: 2.5rem;
+  }
+  .section-header h2 {
+    font-size: 24px;
+    margin: 0;
+  }
+  .section-count {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+  }
+
+  .exp-card {
+    position: relative;
+    border: 2px solid var(--color-ink);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    background-color: transparent;
+  }
+  .exp-card:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .entry-badge {
+    position: absolute;
+    top: -10px;
+    left: 1rem;
+    background-color: var(--color-cream);
+    padding: 0 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+  }
+
   .exp-head {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .exp-head-text {
+    flex: 1 1 auto;
+    min-width: 0;
   }
   .exp-head h3 {
     font-family: var(--font-sans);
     font-weight: 900;
-    font-size: 28px;
+    font-size: 22px;
     text-transform: uppercase;
+    line-height: 1.1;
     letter-spacing: -0.02em;
     margin: 0;
   }
-  .exp-meta {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--color-muted);
-    margin: 0;
-  }
   .exp-role {
-    font-style: italic;
+    font-family: var(--font-sans);
     font-weight: 500;
-    font-size: 17px;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--color-muted);
     margin: 0.5rem 0 0 0;
   }
-  .exp-list {
-    list-style: none;
-    padding-left: 0;
-    margin-top: 1rem;
-  }
-  .exp-list li {
-    font-size: 15px;
-    line-height: 1.6;
-    position: relative;
-    padding-left: 1.25rem;
-    margin-bottom: 0.35rem;
-  }
-  .exp-list li::before {
-    content: '— ';
-    position: absolute;
-    left: 0;
-    color: var(--color-ink);
-  }
-  .exp-awards {
+  .date-stamp {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    flex-shrink: 0;
+    border: 2px solid var(--color-ink);
+    padding: 0.5rem 0.75rem;
     font-family: var(--font-mono);
     font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-muted);
-    margin-top: 1rem;
+    letter-spacing: 0.1em;
+    text-align: right;
   }
-  hr {
+
+  .exp-rule {
     border: 0;
     border-top: 1px solid var(--color-ink);
-    margin: 2.5rem 0;
+    width: 80px;
+    margin: 1.5rem 0;
+  }
+
+  .exp-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+  }
+  .exp-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .exp-list li:last-child {
+    margin-bottom: 0;
+  }
+  .bullet-num {
+    flex-shrink: 0;
+    min-width: 24px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-muted);
+  }
+  .bullet-arrow {
+    flex-shrink: 0;
+    margin-right: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-muted);
+  }
+  .bullet-text {
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .awards-badge {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+  .awards-label {
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+    border: 2px solid var(--color-ink);
+    padding: 4px 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .awards-text {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 13px;
+    color: var(--color-ink);
   }
 
   .skill-group {
@@ -423,11 +560,14 @@ const expertise: readonly ExpertiseGroup[] = [
     .section {
       padding: 4rem 2rem;
     }
-    .exp-head {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 1rem;
+    .section-header h2 {
+      font-size: 32px;
+    }
+    .exp-card {
+      padding: 2rem;
+    }
+    .exp-head h3 {
+      font-size: 28px;
     }
   }
 </style>
