@@ -72,19 +72,24 @@ const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
           DOWNLOAD RESUME ↓
         </a>
       </div>
-      <figure class="polaroid" aria-label="Photo of Preyan Bhowmick">
-        <div class="polaroid-stamp">
-          <Stamp text="AVAILABLE" variant="available" rotation={-6} />
+      <figure class="headshot" aria-label="Headshot of Preyan Bhowmick">
+        <div class="headshot-frame">
+          <img
+            src="/preyan.jpg"
+            alt="Preyan Bhowmick"
+            width="354"
+            height="475"
+            loading="eager"
+            decoding="async"
+          />
+          <div class="headshot-stamp">
+            <Stamp text="AVAILABLE" variant="available" rotation={-3} />
+          </div>
         </div>
-        <img
-          src="/preyan.svg"
-          alt="Preyan Bhowmick"
-          width="320"
-          height="320"
-          loading="eager"
-          decoding="async"
-        />
-        <figcaption>PREYAN</figcaption>
+        <figcaption>
+          <span class="headshot-fig">FIG. 01</span>
+          <span class="headshot-subject">SUBJECT: P. BHOWMICK</span>
+        </figcaption>
       </figure>
     </div>
   </section>
@@ -159,44 +164,49 @@ const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
   .hero-text {
     width: 100%;
   }
-  .polaroid {
-    position: relative;
+  .headshot {
     margin: 1.25rem 0 0 0;
-    padding: 10px 10px 0 10px;
-    background-color: #ffffff;
-    border: 3px solid var(--color-ink);
-    transform: rotate(3deg);
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    width: 200px;
+    width: 220px;
     align-self: center;
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
   }
-  .polaroid img {
+  .headshot-frame {
+    position: relative;
+    border: 3px solid var(--color-ink);
+    background-color: var(--color-ink);
+    line-height: 0;
+  }
+  .headshot-frame img {
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
-    border: 2px solid var(--color-ink);
-    background-color: var(--color-cream);
+    filter: grayscale(100%) contrast(1.05);
   }
-  .polaroid figcaption {
+  .headshot-stamp {
+    position: absolute;
+    bottom: -14px;
+    right: -16px;
+    z-index: 2;
+  }
+  .headshot figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    padding: 6px 0 0 0;
+    border-top: 1px solid var(--color-ink);
     font-family: var(--font-mono);
-    font-weight: 700;
-    font-size: 12px;
+    font-size: 10px;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    text-align: center;
-    padding: 10px 4px 8px 4px;
+    letter-spacing: 0.12em;
     color: var(--color-ink);
   }
-  .polaroid-stamp {
-    position: absolute;
-    top: -18px;
-    right: -22px;
-    z-index: 2;
+  .headshot-subject {
+    color: var(--color-muted);
   }
   .pre-label {
     font-family: var(--font-mono);
@@ -382,8 +392,8 @@ const comingSoon: readonly string[] = ['Projects showcase', 'Blog'];
       flex: 1 1 auto;
       min-width: 0;
     }
-    .polaroid {
-      width: 320px;
+    .headshot {
+      width: 300px;
       margin: 0;
       align-self: flex-start;
     }

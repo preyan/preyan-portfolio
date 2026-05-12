@@ -82,11 +82,6 @@ Deployed to GitHub Pages via the workflow at `.github/workflows/deploy.yml`.
 
 Live in ~60 seconds after the workflow completes.
 
-## TODO
-
-- [ ] Replace `public/resume.pdf` with the actual export
-- [ ] Replace `public/preyan.svg` with a real photo
-
 ## License
 
 [MIT](LICENSE) &copy; Preyan Bhowmick
