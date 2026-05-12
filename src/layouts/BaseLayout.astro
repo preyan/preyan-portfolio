@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { title, description, pageName } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, 'https://preyan.pages.dev').toString();
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 ---
 
 <!doctype html>
