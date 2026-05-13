@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { features } from '../config/features';
 ---
 
 <BaseLayout
@@ -18,9 +19,21 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <p class="punchline">YOU FOUND A PAGE THAT DOESN'T SHIP.</p>
     <p class="subtext">Ironic, given the headline on the homepage. Let's get you back there.</p>
 
-    <a href="/" class="back-button">
-      <span aria-hidden="true">←</span> BACK TO HOME
-    </a>
+    <nav aria-label="Recovery options" class="recovery-nav">
+      <a href="/" class="back-button back-button--primary">
+        <span aria-hidden="true">←</span> BACK TO HOME
+      </a>
+      {features.showProjects && (
+        <a href="/projects" class="back-button">
+          PROJECTS <span aria-hidden="true">→</span>
+        </a>
+      )}
+      {features.showBlog && (
+        <a href="/blog" class="back-button">
+          BLOG <span aria-hidden="true">→</span>
+        </a>
+      )}
+    </nav>
   </section>
 </BaseLayout>
 
@@ -100,6 +113,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     animation: settle 400ms ease-out 1800ms both;
   }
 
+  .recovery-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    animation: settle 400ms ease-out 2000ms both;
+  }
+
   .back-button {
     font-family: var(--font-mono);
     font-size: 13px;
@@ -108,16 +129,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     letter-spacing: 0.1em;
     padding: 12px 24px;
     border: 3px solid var(--color-ink);
-    background: var(--color-accent);
+    background: transparent;
     color: var(--color-ink);
     text-decoration: none;
     display: inline-block;
-    animation: settle 400ms ease-out 2000ms both;
   }
   .back-button:hover,
   .back-button:focus-visible {
     background: var(--color-ink);
     color: var(--color-cream);
+  }
+
+  .back-button--primary {
+    background: var(--color-accent);
+  }
+  .back-button--primary:hover,
+  .back-button--primary:focus-visible {
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+
+  @media (max-width: 480px) {
+    .recovery-nav {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+      max-width: 280px;
+    }
+    .back-button {
+      text-align: center;
+    }
   }
 
   @media (min-width: 481px) {
@@ -202,7 +243,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     .stamp,
     .punchline,
     .subtext,
-    .back-button {
+    .recovery-nav {
       animation: none !important;
       opacity: 1 !important;
     }
@@ -210,7 +251,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     .error-number,
     .punchline,
     .subtext,
-    .back-button {
+    .recovery-nav {
       transform: none !important;
     }
     .stamp {
