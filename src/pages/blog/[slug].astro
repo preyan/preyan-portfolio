@@ -75,8 +75,8 @@ const signedTime = sigTimeFormatter.format(pubDate);
   <article class="prose">
     <Content />
     <aside class="signature-block" aria-label="Author signature">
-      <span class="signature-name" aria-hidden="true">Preyan</span>
-      <span class="sr-only">Signed by Preyan,</span>
+      <span class="signature-name" aria-hidden="true">— Preyan Bhowmick</span>
+      <span class="sr-only">Signed by Preyan Bhowmick,</span>
       <span class="signature-meta">SIGNED · {signedDate} · {signedTime} IST</span>
     </aside>
   </article>
@@ -166,16 +166,15 @@ const signedTime = sigTimeFormatter.format(pubDate);
     border-top: 1px solid var(--color-ink);
   }
   .signature-name {
-    font-family: var(--font-signature);
-    font-weight: 700;
-    font-size: 56px;
-    line-height: 1;
+    font-family: 'Caveat', cursive;
+    font-size: 32px;
+    font-weight: 500;
+    font-style: normal;
     color: var(--color-ink);
-    transform: rotate(-3deg);
-    transform-origin: left center;
-    margin-left: 0.25rem;
-    /* slight letter overlap for a more inked feel */
-    letter-spacing: -0.02em;
+    margin-top: 2rem;
+    display: inline-block;
+    transform: rotate(-2deg);
+    letter-spacing: 0.02em;
   }
   .signature-meta {
     font-family: var(--font-mono);
