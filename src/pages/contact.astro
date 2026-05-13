@@ -5,8 +5,6 @@ import { features } from '../config/features';
 if (!features.showContact) {
   return Astro.redirect('/404');
 }
-
-const sent = Astro.url.searchParams.get('sent') === 'true';
 ---
 
 <BaseLayout
@@ -24,24 +22,16 @@ const sent = Astro.url.searchParams.get('sent') === 'true';
       Drop a message — opportunities, collaboration, questions. I read everything.
     </p>
 
-    {
-      sent && (
-        <div class="success-banner" role="status" aria-live="polite">
-          <p class="mono-label">STATUS · DELIVERED</p>
-          <p class="success-text">Message sent. I'll reply within ~48 hours.</p>
-        </div>
-      )
-    }
+    <div id="sent" class="success-banner" role="status" aria-live="polite">
+      <p class="mono-label">STATUS · DELIVERED</p>
+      <p class="success-text">Message sent. I'll reply within ~48 hours.</p>
+    </div>
 
     <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
       <input type="hidden" name="access_key" value="a340ff1f-5004-46b6-8193-aff11c5e2528" />
       <input type="hidden" name="subject" value="New contact from preyan.github.io" />
       <input type="hidden" name="from_name" value="preyan.github.io" />
-      <input
-        type="hidden"
-        name="redirect"
-        value="https://preyan.github.io/contact?sent=true"
-      />
+      <input type="hidden" name="redirect" value="https://preyan.github.io/contact#sent" />
       <input
         type="checkbox"
         name="botcheck"
@@ -114,10 +104,14 @@ const sent = Astro.url.searchParams.get('sent') === 'true';
   }
 
   .success-banner {
+    display: none;
     background: var(--color-accent);
     border: 3px solid var(--color-ink);
     padding: 1rem 1.5rem;
     margin-bottom: 2rem;
+  }
+  .success-banner:target {
+    display: block;
   }
 
   .mono-label {
