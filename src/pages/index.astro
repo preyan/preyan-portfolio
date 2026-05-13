@@ -103,8 +103,24 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
         <h1>FULL STACK ENGINEER<br />WHO SHIPS.</h1>
         <p class="sub-headline">{description}</p>
         <p class="contact">
-          <a href="mailto:preyan1997@gmail.com">preyan1997@gmail.com</a> ·
-          <a href="tel:+919836556742">+91 98365 56742</a> · Kolkata, India
+          <a
+            href="mailto:preyan1997&#64;gmail&#46;com"
+            class="masked-link"
+            aria-label="Email Preyan at preyan1997 at gmail dot com"
+          >
+            <span class="masked-default">p•••••••@gmail.com</span>
+            <span class="masked-full">
+              <span>preyan</span><span>1997</span><span aria-hidden="true">@</span><span
+                >gmail</span
+              ><span aria-hidden="true">.</span><span>com</span>
+            </span>
+          </a> ·
+          <a href="tel:&#43;919836556742" class="masked-link" aria-label="Phone +91 98365 56742">
+            <span class="masked-default">+91 •••••56742</span>
+            <span class="masked-full">
+              <span>+91</span> <span>98365</span> <span>56742</span>
+            </span>
+          </a> · Kolkata, India
         </p>
         <div class="cta-row">
           {features.showProjects && (
@@ -341,6 +357,21 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
   .contact a {
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+  .masked-link {
+    position: relative;
+    display: inline-block;
+  }
+  .masked-full {
+    display: none;
+  }
+  .masked-link:hover .masked-default,
+  .masked-link:focus-visible .masked-default {
+    display: none;
+  }
+  .masked-link:hover .masked-full,
+  .masked-link:focus-visible .masked-full {
+    display: inline;
   }
   .cta-row {
     display: flex;
