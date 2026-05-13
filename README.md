@@ -1,96 +1,116 @@
-<div align="center">
+# PREYAN.GITHUB.IO
 
-# preyan-portfolio
+> Personal portfolio · Est. 2026 · Vol. I
 
-**Personal portfolio site by Preyan Bhowmick.**
+A brutalist personal portfolio built like a printed publication. Hard borders, no rounded corners, generous whitespace. Statically generated, zero JavaScript.
 
-Brutalist aesthetic. Statically generated. Built to last.
-
-[![Astro](https://img.shields.io/badge/Astro-6-FF5D01?style=flat-square&logo=astro&logoColor=white)](https://astro.build)
-[![MDX](https://img.shields.io/badge/MDX-5-1B1F24?style=flat-square&logo=mdx&logoColor=white)](https://mdxjs.com)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-live-222222?style=flat-square&logo=github&logoColor=white)](https://preyan.github.io)
-[![License: MIT](https://img.shields.io/badge/License-MIT-000000?style=flat-square)](LICENSE)
-
-**Live:** [preyan.github.io](https://preyan.github.io)
-
-</div>
+**[→ Live site](https://preyan.github.io)** · **[Releases](https://github.com/preyan/preyan.github.io/releases)** · **License MIT**
 
 ---
 
-## Overview
+## § 01 — Status
 
-A static site built like a printed publication: hard borders, no rounded corners, no shadows, generous whitespace. Hub at `/` surfaces experience, expertise, and a resume download; `/projects` opens a showcase of selected work with full MDX write-ups per project.
+| Field | Value |
+| --- | --- |
+| Version | v1.2.0 |
+| Deploy | Live |
+| Accessibility | WCAG 2.2 AA |
+| Lighthouse | 100 / 100 / 100 / 100 |
+| License | MIT |
 
-## Stack
+---
 
-| Layer            | Tech                                          |
-| ---------------- | --------------------------------------------- |
-| Framework        | [Astro 6](https://astro.build)                |
-| Content          | [MDX](https://mdxjs.com) via Content Layer    |
-| Styling          | [Tailwind CSS 4](https://tailwindcss.com)     |
-| Language         | TypeScript (strict)                           |
-| Fonts            | Self-hosted Inter + JetBrains Mono Variable   |
-| Output           | Static                                        |
-| Package manager  | pnpm                                          |
-| Hosting          | GitHub Pages                                  |
+## § 02 — Stack
 
-## Roadmap
+| Layer | Tech |
+| --- | --- |
+| Framework | [Astro 6](https://astro.build) + MDX Content Layer |
+| Styling | [Tailwind CSS 4](https://tailwindcss.com) with custom brutalist tokens |
+| Language | TypeScript (strict) |
+| Fonts | Self-hosted Inter + JetBrains Mono Variable |
+| Output | Static |
+| Package manager | pnpm |
+| Hosting | [GitHub Pages](https://pages.github.com) |
+| CI | GitHub Actions (deploy + auto-release) |
 
-- [x] **v1** — Hub: experience + expertise + resume download
-- [x] **v2** — `/projects` showcase with MDX write-ups
-- [ ] **v3** — `/blog` from markdown posts
+---
 
-## Visibility controls
+## § 03 — Roadmap
 
-Two layers of build-time gating; both require a rebuild to take effect.
+| Version | Status | Scope |
+| --- | --- | --- |
+| v1 | Shipped | Hub · experience · expertise · resume download |
+| v2 | Shipped | /projects · MDX write-ups · feature flag system |
+| v3 | Shipped | /blog · MDX posts · RSS feed |
+| v4 | Planned | Long-form case studies — architecture deep-dives, performance notes, retrospectives on shipped projects |
 
-- **Section-level** — flip a boolean in [`src/config/features.ts`](src/config/features.ts) to hide an entire section. Flags: `showProjects`, `showBlog`, `showResumeDownload`, `showAvailableStamp`. When off, the corresponding nav tile is hidden and the routes redirect to `/404` (the RSS feed returns 404 too).
-- **Item-level** — handled via frontmatter on each content file. Blog posts with `draft: true` are excluded from the index, slug routes, and the RSS feed. Projects with `status: 'wip'` are excluded from the index and slug routes; `live` and `archived` projects render normally.
+---
 
-## Getting started
+## § 04 — Getting started
 
-```sh
-pnpm install
-pnpm dev
-```
+Install dependencies and start the dev server. Then visit http://localhost:4321.
 
-Then visit [`http://localhost:4321`](http://localhost:4321).
+| Command | Description |
+| --- | --- |
+| pnpm install | Install dependencies |
+| pnpm dev | Start the dev server with HMR |
+| pnpm build | Production build to ./dist |
+| pnpm preview | Preview the production build locally |
+| pnpm astro ... | Run any Astro CLI command |
 
-### Scripts
+---
 
-| Command          | Description                          |
-| ---------------- | ------------------------------------ |
-| `pnpm dev`       | Start the dev server with HMR        |
-| `pnpm build`     | Production build to `./dist`         |
-| `pnpm preview`   | Preview the production build locally |
-| `pnpm astro ...` | Run any Astro CLI command            |
+## § 05 — Visibility controls
 
-## Project structure
+Two layers of build-time gating. Both require a rebuild to take effect.
 
-```text
-.
-├── public/                 # static assets (favicon, resume.pdf, photo)
-├── src/
-│   ├── components/         # Masthead, Footer, Stamp
-│   ├── content/projects/   # MDX write-ups, one per project
-│   ├── content.config.ts   # Content Layer schema (zod-validated)
-│   ├── layouts/            # BaseLayout
-│   ├── pages/
-│   │   ├── index.astro     # hub
-│   │   ├── 404.astro
-│   │   └── projects/       # /projects index + /projects/[slug]
-│   └── styles/             # global.css + design tokens
-├── .github/workflows/      # deploy.yml (GitHub Pages)
-├── astro.config.mjs
-└── package.json
-```
+Section-level — edit [src/config/features.ts](src/config/features.ts) to hide entire sections or routes. Four flags: showProjects, showBlog, showResumeDownload, showAvailableStamp. When a flag is false, the nav tile disappears, the routes redirect to /404, and (for blog) the RSS feed returns 404.
 
-## Deploy
+Item-level — handled via frontmatter on each content file. Blog posts with draft: true are excluded from the index, slug routes, and RSS feed. Projects with status: 'wip' are excluded from the index and slug routes; live and archived projects render normally.
 
-Live at [preyan.github.io](https://preyan.github.io). Deployed automatically by the workflow at [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) on every push to `main`. The workflow builds with `pnpm build` and publishes `./dist` to GitHub Pages — typically ~60 seconds end-to-end.
+---
+
+## § 06 — Project structure
+
+| Path | Purpose |
+| --- | --- |
+| public/ | Static assets (favicon, resume.pdf) |
+| src/components/ | Masthead · Footer · Stamp · BlogImage |
+| src/config/features.ts | Build-time feature flags |
+| src/content/blog/ | MDX blog posts |
+| src/content/projects/ | MDX project write-ups |
+| src/content.config.ts | Content Layer schema (zod-validated) |
+| src/layouts/ | BaseLayout |
+| src/pages/index.astro | Hub |
+| src/pages/404.astro | Animated brutal-joke 404 |
+| src/pages/feed.xml.js | RSS feed |
+| src/pages/blog/ | /blog index + /blog/[slug] |
+| src/pages/projects/ | /projects index + /projects/[slug] |
+| src/styles/ | global.css + design tokens |
+| .github/workflows/deploy.yml | GitHub Pages deployment |
+| .github/workflows/release.yml | Auto-generated release notes |
+| CLAUDE.md | Operating rules + project spec |
+
+---
+
+## § 07 — Deploy
+
+Live at [preyan.github.io](https://preyan.github.io). Deployed automatically by [.github/workflows/deploy.yml](.github/workflows/deploy.yml) on every push to main. Build with pnpm build, publishes ./dist to GitHub Pages — typically ~60 seconds end-to-end.
+
+Tagged releases (v*.*.*) trigger [.github/workflows/release.yml](.github/workflows/release.yml), which generates structured release notes from conventional commit messages and publishes a GitHub Release.
+
+---
+
+## § 08 — Design principles
+
+- Brutalist publication aesthetic — hard borders, no rounded corners, no shadows, no gradients
+- Zero client JS — all interactivity in CSS only
+- Type-safe content — MDX frontmatter validated by zod at build time
+- Conventional commits — every commit prefixed (feat:, fix:, chore:, docs:)
+- Semver discipline — patch for fixes, minor for features, major reserved for redesigns
+
+---
 
 ## License
 
-[MIT](LICENSE) &copy; Preyan Bhowmick
+[MIT](LICENSE) © 2026 Preyan Bhowmick · Built to last.
