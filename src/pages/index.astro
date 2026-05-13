@@ -102,26 +102,7 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
       <div class="hero-text">
         <h1>FULL STACK ENGINEER<br />WHO SHIPS.</h1>
         <p class="sub-headline">{description}</p>
-        <p class="contact">
-          <a
-            href="mailto:preyan1997&#64;gmail&#46;com"
-            class="masked-link"
-            aria-label="Email Preyan at preyan1997 at gmail dot com"
-          >
-            <span class="masked-default">p•••••••@gmail.com</span>
-            <span class="masked-full">
-              <span>preyan</span><span>1997</span><span aria-hidden="true">@</span><span
-                >gmail</span
-              ><span aria-hidden="true">.</span><span>com</span>
-            </span>
-          </a> ·
-          <a href="tel:&#43;919836556742" class="masked-link" aria-label="Phone +91 98365 56742">
-            <span class="masked-default">+91 •••••56742</span>
-            <span class="masked-full">
-              <span>+91</span> <span>98365</span> <span>56742</span>
-            </span>
-          </a> · Kolkata, India
-        </p>
+        <p class="contact">Kolkata, India</p>
         <div class="cta-row">
           {features.showProjects && (
             <a class="cta-button cta-outline" href="/projects">
@@ -138,13 +119,11 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
               DOWNLOAD RESUME <span aria-hidden="true">↓</span>
             </a>
           )}
-          <a
-            class="cta-button cta-filled"
-            href="mailto:preyan1997@gmail.com?subject=Hello%20Preyan"
-            aria-label="Send Preyan an email"
-          >
-            CONNECT WITH ME <span aria-hidden="true">→</span>
-          </a>
+          {features.showContact && (
+            <a class="cta-button cta-filled" href="/contact">
+              CONTACT <span aria-hidden="true">→</span>
+            </a>
+          )}
         </div>
       </div>
       <figure class="headshot" aria-label="Headshot of Preyan Bhowmick">

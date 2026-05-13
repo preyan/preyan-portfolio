@@ -1,4 +1,6 @@
 ---
+import { features } from '../config/features';
+
 const lastUpdated = new Intl.DateTimeFormat('en-GB', {
   day: '2-digit',
   month: 'short',
@@ -16,9 +18,11 @@ const lastUpdated = new Intl.DateTimeFormat('en-GB', {
 
   <div class="utility">
     <nav class="contact" aria-label="Contact links">
-      <a href="mailto:preyan1997@gmail.com" aria-label="Email Preyan at preyan1997@gmail.com">
-        EMAIL <span class="arrow" aria-hidden="true">↗</span>
-      </a>
+      {features.showContact && (
+        <a href="/contact" aria-label="Send a message via the contact form">
+          CONTACT <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      )}
       <a
         href="https://github.com/preyan"
         target="_blank"

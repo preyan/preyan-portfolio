@@ -33,6 +33,11 @@ import { features } from '../config/features';
           BLOG <span aria-hidden="true">→</span>
         </a>
       )}
+      {features.showContact && (
+        <a href="/contact" class="back-button">
+          CONTACT <span aria-hidden="true">→</span>
+        </a>
+      )}
     </nav>
   </section>
 </BaseLayout>

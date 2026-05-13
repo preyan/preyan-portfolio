@@ -12,7 +12,7 @@ A brutalist personal portfolio built like a printed publication. Hard borders, n
 
 | Field | Value |
 | --- | --- |
-| Version | v2.0.0 |
+| Version | v3.0.0 |
 | Deploy | Live |
 | Accessibility | WCAG 2.2 AA |
 | Lighthouse | 100 / 100 / 100 / 100 |

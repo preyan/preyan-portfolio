@@ -1,0 +1,200 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { features } from '../config/features';
+
+if (!features.showContact) {
+  return Astro.redirect('/404');
+}
+
+const sent = Astro.url.searchParams.get('sent') === 'true';
+---
+
+<BaseLayout
+  title="Contact — Preyan Bhowmick"
+  description="Send a message — opportunities, collaboration, or anything else."
+  pageName="CONTACT"
+>
+  <section class="contact-wrap">
+    <header class="section-header">
+      <h1>§ 04 — CONTACT</h1>
+      <span class="meta">RESPONSE TIME · ~48H</span>
+    </header>
+
+    <p class="intro">
+      Drop a message — opportunities, collaboration, questions. I read everything.
+    </p>
+
+    {
+      sent && (
+        <div class="success-banner" role="status" aria-live="polite">
+          <p class="mono-label">STATUS · DELIVERED</p>
+          <p class="success-text">Message sent. I'll reply within ~48 hours.</p>
+        </div>
+      )
+    }
+
+    <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
+      <input type="hidden" name="access_key" value="a340ff1f-5004-46b6-8193-aff11c5e2528" />
+      <input type="hidden" name="subject" value="New contact from preyan.github.io" />
+      <input type="hidden" name="from_name" value="preyan.github.io" />
+      <input
+        type="hidden"
+        name="redirect"
+        value="https://preyan.github.io/contact?sent=true"
+      />
+      <input
+        type="checkbox"
+        name="botcheck"
+        class="honeypot"
+        tabindex="-1"
+        autocomplete="off"
+        aria-hidden="true"
+      />
+
+      <label>
+        <span class="field-label">NAME</span>
+        <input type="text" name="name" required maxlength="100" autocomplete="name" />
+      </label>
+
+      <label>
+        <span class="field-label">EMAIL</span>
+        <input type="email" name="email" required maxlength="200" autocomplete="email" />
+      </label>
+
+      <label>
+        <span class="field-label">MESSAGE</span>
+        <textarea name="message" required rows="6" maxlength="2000"></textarea>
+      </label>
+
+      <button type="submit">SEND <span aria-hidden="true">→</span></button>
+    </form>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 1rem;
+    border-bottom: 3px solid var(--color-ink);
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .section-header h1 {
+    font-family: var(--font-sans);
+    font-weight: 900;
+    font-size: clamp(24px, 5vw, 32px);
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .section-header .meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+  }
+
+  .intro {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--color-muted);
+    margin: 0 0 2rem;
+  }
+
+  .success-banner {
+    background: var(--color-accent);
+    border: 3px solid var(--color-ink);
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-ink);
+    margin: 0 0 0.25rem;
+  }
+
+  .success-text {
+    font-size: 15px;
+    margin: 0;
+  }
+
+  .field-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 1.5rem;
+  }
+
+  input[type='text'],
+  input[type='email'],
+  textarea {
+    width: 100%;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    padding: 12px 14px;
+    border: 2px solid var(--color-ink);
+    background: transparent;
+    color: var(--color-ink);
+    box-sizing: border-box;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 140px;
+  }
+
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-cream), 0 0 0 5px var(--color-ink);
+  }
+
+  button[type='submit'] {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 12px 24px;
+    border: 3px solid var(--color-ink);
+    background: var(--color-accent);
+    color: var(--color-ink);
+    cursor: pointer;
+  }
+
+  button[type='submit']:hover,
+  button[type='submit']:focus-visible {
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+
+  .honeypot {
+    display: none !important;
+    position: absolute;
+    left: -9999px;
+  }
+</style>
