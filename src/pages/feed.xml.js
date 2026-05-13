@@ -1,7 +1,11 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
+import { features } from '../config/features';
 
 export async function GET(context) {
+  if (!features.showBlog) {
+    return new Response(null, { status: 404 });
+  }
   const posts = await getCollection('blog', ({ data }) => !data.draft);
   return rss({
     title: 'Preyan Bhowmick — Blog',

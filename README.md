@@ -42,6 +42,13 @@ A static site built like a printed publication: hard borders, no rounded corners
 - [x] **v2** — `/projects` showcase with MDX write-ups
 - [ ] **v3** — `/blog` from markdown posts
 
+## Visibility controls
+
+Two layers of build-time gating; both require a rebuild to take effect.
+
+- **Section-level** — flip a boolean in [`src/config/features.ts`](src/config/features.ts) to hide an entire section. Flags: `showProjects`, `showBlog`, `showResumeDownload`, `showAvailableStamp`. When off, the corresponding nav tile is hidden and the routes redirect to `/404` (the RSS feed returns 404 too).
+- **Item-level** — handled via frontmatter on each content file. Blog posts with `draft: true` are excluded from the index, slug routes, and the RSS feed. Projects with `status: 'wip'` are excluded from the index and slug routes; `live` and `archived` projects render normally.
+
 ## Getting started
 
 ```sh

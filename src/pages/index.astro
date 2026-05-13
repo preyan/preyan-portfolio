@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Stamp from '../components/Stamp.astro';
+import { features } from '../config/features';
 
 const title = 'Preyan Bhowmick — Full Stack Engineer';
 const description =
@@ -106,15 +107,21 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
           <a href="tel:+919836556742">+91 98365 56742</a> · Kolkata, India
         </p>
         <div class="cta-row">
-          <a class="cta-button cta-outline" href="/projects">
-            PROJECTS <span aria-hidden="true">→</span>
-          </a>
-          <a class="cta-button cta-outline" href="/blog">
-            BLOG <span aria-hidden="true">→</span>
-          </a>
-          <a class="cta-button cta-outline" href="/resume.pdf" aria-label="Download resume PDF" download>
-            DOWNLOAD RESUME <span aria-hidden="true">↓</span>
-          </a>
+          {features.showProjects && (
+            <a class="cta-button cta-outline" href="/projects">
+              PROJECTS <span aria-hidden="true">→</span>
+            </a>
+          )}
+          {features.showBlog && (
+            <a class="cta-button cta-outline" href="/blog">
+              BLOG <span aria-hidden="true">→</span>
+            </a>
+          )}
+          {features.showResumeDownload && (
+            <a class="cta-button cta-outline" href="/resume.pdf" aria-label="Download resume PDF" download>
+              DOWNLOAD RESUME <span aria-hidden="true">↓</span>
+            </a>
+          )}
           <a
             class="cta-button cta-filled"
             href="mailto:preyan1997@gmail.com?subject=Hello%20Preyan"
@@ -134,9 +141,11 @@ const categoryCount = expertise.length.toString().padStart(2, '0');
             loading="eager"
             decoding="async"
           />
-          <div class="headshot-stamp">
-            <Stamp text="AVAILABLE FOR HIRE" variant="available" rotation={-3} />
-          </div>
+          {features.showAvailableStamp && (
+            <div class="headshot-stamp">
+              <Stamp text="AVAILABLE FOR HIRE" variant="available" rotation={-3} />
+            </div>
+          )}
         </div>
         <figcaption>
           <span class="headshot-fig">FIG. 01</span>

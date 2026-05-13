@@ -3,9 +3,10 @@ import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Stamp from '../../components/Stamp.astro';
+import { features } from '../../config/features';
 
 export async function getStaticPaths() {
-  const projects = await getCollection('projects');
+  const projects = await getCollection('projects', ({ data }) => data.status !== 'wip');
   return projects.map((project) => ({
     // Astro 6 Content Layer: `.id` is the filename slug (e.g. "velora")
     // for the legacy `type: 'content'` collection used here.
@@ -16,6 +17,10 @@ export async function getStaticPaths() {
 
 interface Props {
   project: CollectionEntry<'projects'>;
+}
+
+if (!features.showProjects) {
+  return Astro.redirect('/404');
 }
 
 const { project } = Astro.props;

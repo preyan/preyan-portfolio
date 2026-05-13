@@ -2,6 +2,11 @@
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { features } from '../../config/features';
+
+if (!features.showBlog) {
+  return Astro.redirect('/404');
+}
 
 type BlogEntry = CollectionEntry<'blog'>;
 

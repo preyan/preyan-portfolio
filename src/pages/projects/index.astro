@@ -3,12 +3,17 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Stamp from '../../components/Stamp.astro';
+import { features } from '../../config/features';
+
+if (!features.showProjects) {
+  return Astro.redirect('/404');
+}
 
 type ProjectEntry = CollectionEntry<'projects'>;
 
-const projects: ProjectEntry[] = (await getCollection('projects')).sort(
-  (a, b) => a.data.order - b.data.order,
-);
+const projects: ProjectEntry[] = (
+  await getCollection('projects', ({ data }) => data.status !== 'wip')
+).sort((a, b) => a.data.order - b.data.order);
 
 // Build-time count, zero-padded so the header reads "03 ENTRIES" rather than a hardcoded literal.
 const entryCount = projects.length.toString().padStart(2, '0');

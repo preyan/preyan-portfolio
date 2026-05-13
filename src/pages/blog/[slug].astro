@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { features } from '../../config/features';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -14,6 +15,10 @@ export async function getStaticPaths() {
 
 interface Props {
   post: CollectionEntry<'blog'>;
+}
+
+if (!features.showBlog) {
+  return Astro.redirect('/404');
 }
 
 const { post } = Astro.props;
