@@ -48,6 +48,41 @@ jobs:
           sed -i "s/| Version | v$OLD |/| Version | v$NEW |/" README.md
 
       - if: steps.bump.outputs.kind != 'none'
+        id: notes
+        run: |
+          OLD="${{ steps.version.outputs.old }}"
+          NEW="${{ steps.version.outputs.new }}"
+          COMMITS=$(git log "v$OLD..HEAD" --pretty=format:"%s" | grep -vE '^chore: release v' || true)
+
+          section() {
+            local prefix="$1" title="$2" lines
+            lines=$(printf '%s\n' "$COMMITS" | grep -E "^$prefix(\([^)]+\))?!?:" | sed -E "s/^$prefix(\([^)]+\))?!?:[[:space:]]*/- /" || true)
+            if [ -n "$lines" ]; then
+              printf '## %s\n\n%s\n\n' "$title" "$lines"
+            fi
+          }
+
+          {
+            printf 'Released from `main`. Live at https://preyan.github.io\n\n'
+            section feat 'Features'
+            section fix 'Fixes'
+            section docs 'Documentation'
+            section refactor 'Refactoring'
+            section style 'Style'
+            section ci 'CI / Tooling'
+            section chore 'Maintenance'
+            printf -- '---\n\n'
+            printf '**Full changelog:** https://github.com/%s/compare/v%s...v%s\n\n' "$GITHUB_REPOSITORY" "$OLD" "$NEW"
+            printf '**Stack:** Astro 6 · MDX · Tailwind 4 · TypeScript · GitHub Pages\n'
+          } > /tmp/notes.md
+
+          {
+            echo 'body<<RELEASE_NOTES_END'
+            cat /tmp/notes.md
+            echo 'RELEASE_NOTES_END'
+          } >> "$GITHUB_OUTPUT"
+
+      - if: steps.bump.outputs.kind != 'none'
         run: |
           NEW="${{ steps.version.outputs.new }}"
           git config user.name "github-actions[bot]"
@@ -62,8 +97,4 @@ jobs:
         with:
           tag_name: v${{ steps.version.outputs.new }}
           name: v${{ steps.version.outputs.new }}
-          body: |
-            Released from `main`. Live at https://preyan.github.io
-
-            **Full changelog:** https://github.com/${{ github.repository }}/compare/v${{ steps.version.outputs.old }}...v${{ steps.version.outputs.new }}
-          generate_release_notes: true
+          body: ${{ steps.notes.outputs.body }}
