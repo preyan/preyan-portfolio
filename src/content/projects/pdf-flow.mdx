@@ -1,0 +1,46 @@
+---
+id: "004"
+title: "PDF-FLOW"
+description: "A browser-based PDF toolkit. Merge, split, compress, edit, watermark, sign, and convert — all client-side. No upload, no server, no tracking."
+stack: ["React 19", "TypeScript", "Vite 8", "Tailwind 4", "shadcn/ui", "Zustand", "Dexie", "pdf-lib"]
+liveUrl: "https://preyan.github.io/pdf-flow/"
+codeUrl: "https://github.com/preyan/pdf-flow"
+status: "live"
+featured: true
+order: 2
+---
+
+## What it is
+PDFFlow is a privacy-first PDF toolkit that runs entirely in your browser. Seven tools — merge, split, compress, edit, watermark, sign, convert — and none of them ever send a byte to a server.
+
+## Why I built it
+Every "free PDF tool" online asks you to upload your documents to their servers. Tax forms, contracts, medical records — all routed through someone else's infrastructure with vague promises about deletion. The fix is technical, not legal: do the work in the browser, never upload anything. The tagline writes itself — *all your PDFs, none of our business*.
+
+## The tools
+- **Merge** — combine multiple PDFs in any order
+- **Split** — extract pages by range or selection
+- **Compress** — reduce file size with quality control
+- **Edit** — rotate, delete, reorder pages with undo/redo
+- **Watermark** — overlay text with position, opacity, and rotation
+- **Sign** — place hand-drawn or typed signatures on any page
+- **Convert** — export PDF pages as PNG or JPG with adjustable DPI
+
+## Architecture
+- React 19 with strict TypeScript
+- Vite 8 (Rolldown) for the build
+- Zustand for state, Dexie wrapping IndexedDB for ephemeral storage
+- pdf-lib for mutations, pdfjs-dist for rendering
+- shadcn/ui on top of Tailwind 4 for the interface
+- Installable as a PWA via vite-plugin-pwa — works fully offline after first load
+
+## The interesting parts
+- Zero bytes leave the device. No analytics, no accounts, no tracking
+- IndexedDB cache with an automatic 7-day purge — your data doesn't linger
+- Service worker makes the whole app available offline
+- All the heavy PDF work runs on the main thread today; the workerization path is open if it ever needs it
+
+## What I learned
+The PDF spec is bigger than anyone expects until they have to touch it. pdf-lib hides most of the pain, but page rotation, watermark coordinate systems, and font embedding all have sharp edges. The other lesson: client-side tools win on trust, but only if the UX matches the server-backed competition. Speed and polish are the price of admission.
+
+## Stack
+React 19 · TypeScript · Vite 8 · Tailwind 4 · shadcn/ui · Zustand · Dexie · pdf-lib · pdfjs-dist
